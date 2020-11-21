@@ -23,13 +23,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TableLayout;
+import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.SearchAdapter;
 import com.naman14.timber.dataloaders.AlbumLoader;
@@ -60,6 +65,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     private RecyclerView recyclerView;
 
     private List<Object> searchResults = Collections.emptyList();
+    private TabLayout tabLayout;
+    TextView textView;
 
     Bundle bundle;
 
@@ -79,10 +86,37 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
+        textView = findViewById(R.id.Youtube_placeholde);
 
         if(savedInstanceState != null && savedInstanceState.containsKey("QUERY_STRING")){
             bundle = savedInstanceState;
         }
+
+
+        TabLayout tabLayout = findViewById(R.id.search_location);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) {
+                    textView.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else if (tab.getPosition() == 1) {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    textView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
     @Override
