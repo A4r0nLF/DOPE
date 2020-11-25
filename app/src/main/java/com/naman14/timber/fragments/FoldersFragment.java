@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.afollestad.appthemeengine.ATE;
+
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.FolderAdapter;
 import com.naman14.timber.dialogs.StorageSelectDialog;
@@ -68,11 +68,6 @@ public class FoldersFragment extends Fragment implements StorageSelectDialog.OnD
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         boolean dark = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false);
-        if (dark) {
-            ATE.apply(this, "dark_theme");
-        } else {
-            ATE.apply(this, "light_theme");
-        }
         if (mAdapter != null) {
             mAdapter.applyTheme(dark);
             mAdapter.notifyDataSetChanged();

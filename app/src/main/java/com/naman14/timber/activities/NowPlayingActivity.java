@@ -11,9 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.afollestad.appthemeengine.Config;
-import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
-import com.afollestad.appthemeengine.customizers.ATEStatusBarCustomizer;
-import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
@@ -22,7 +19,7 @@ import com.naman14.timber.utils.PreferencesUtility;
 /**
  * Created by naman on 01/01/16.
  */
-public class NowPlayingActivity extends AppCompatActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer, ATEStatusBarCustomizer {
+public class NowPlayingActivity extends AppCompatActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,32 +34,6 @@ public class NowPlayingActivity extends AppCompatActivity implements ATEActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment).commit();
 
-    }
-
-    @StyleRes
-    @Override
-    public int getActivityTheme() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
-    }
-
-    @Override
-    public int getLightToolbarMode() {
-        return Config.LIGHT_TOOLBAR_AUTO;
-    }
-
-    @Override
-    public int getLightStatusBarMode() {
-        return Config.LIGHT_STATUS_BAR_OFF;
-    }
-
-    @Override
-    public int getToolbarColor() {
-        return Color.TRANSPARENT;
-    }
-
-    @Override
-    public int getStatusBarColor() {
-        return Color.TRANSPARENT;
     }
 
     @Override

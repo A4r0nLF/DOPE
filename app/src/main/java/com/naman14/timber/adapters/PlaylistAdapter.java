@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.Config;
+
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.LastAddedLoader;
 import com.naman14.timber.dataloaders.PlaylistSongLoader;
@@ -119,9 +119,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ItemHo
                         if (isGrid) {
                             itemHolder.footer.setBackgroundColor(0);
                             if (mContext != null) {
-                                int textColorPrimary = Config.textColorPrimary(mContext, Helpers.getATEKey(mContext));
-                                itemHolder.title.setTextColor(textColorPrimary);
-                                itemHolder.artist.setTextColor(textColorPrimary);
                             }
                         }
                     }

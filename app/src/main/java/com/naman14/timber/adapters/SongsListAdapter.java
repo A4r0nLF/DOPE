@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.Config;
+
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dialogs.AddPlaylistDialog;
@@ -91,9 +91,9 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
                         .resetViewBeforeLoading(true).build());
 
         if (MusicPlayer.getCurrentAudioId() == localItem.id) {
-            itemHolder.title.setTextColor(Config.accentColor(mContext, ateKey));
+
             if (MusicPlayer.isPlaying()) {
-                itemHolder.visualizer.setColor(Config.accentColor(mContext, ateKey));
+
                 itemHolder.visualizer.setVisibility(View.VISIBLE);
             } else {
                 itemHolder.visualizer.setVisibility(View.GONE);
@@ -102,8 +102,6 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
             itemHolder.visualizer.setVisibility(View.GONE);
             if (isPlaylist) {
                 itemHolder.title.setTextColor(Color.WHITE);
-            } else {
-                itemHolder.title.setTextColor(Config.textColorPrimary(mContext, ateKey));
             }
         }
 

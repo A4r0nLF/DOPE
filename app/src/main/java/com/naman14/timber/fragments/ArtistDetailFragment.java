@@ -35,7 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.afollestad.appthemeengine.ATE;
+
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ArtistSongAdapter;
@@ -100,9 +100,6 @@ public class ArtistDetailFragment extends Fragment {
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar);
         appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
 
-        if (getArguments().getBoolean("transition")) {
-            artistArt.setTransitionName(getArguments().getString("transition_name"));
-        }
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         setupToolbar();
@@ -211,8 +208,7 @@ public class ArtistDetailFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.artist_detail, menu);
-        if (getActivity() != null)
-            ATE.applyMenu(getActivity(), "dark_theme", menu);
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

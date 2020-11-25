@@ -40,8 +40,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.ATE;
-import com.afollestad.appthemeengine.Config;
+
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.AlbumSongsAdapter;
@@ -183,9 +182,9 @@ public class AlbumDetailFragment extends Fragment {
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                         loadFailed = true;
                         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(context)
-                                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE)
-                                .setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
-                        ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
+                                .setIcon(MaterialDrawableBuilder.IconValue.SHUFFLE);
+
+
                         fab.setImageDrawable(builder.build());
                     }
 
@@ -221,8 +220,6 @@ public class AlbumDetailFragment extends Fragment {
                                                                                       fab.setImageDrawable(builder.build());
                                                                                   } else {
                                                                                       if (context != null) {
-                                                                                          ATEUtils.setFabBackgroundTint(fab, Config.accentColor(context, Helpers.getATEKey(context)));
-                                                                                          builder.setColor(TimberUtils.getBlackWhiteColor(Config.accentColor(context, Helpers.getATEKey(context))));
                                                                                           fab.setImageDrawable(builder.build());
                                                                                       }
                                                                                   }
@@ -302,8 +299,7 @@ public class AlbumDetailFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.album_detail, menu);
-        if (getActivity() != null)
-            ATE.applyMenu(getActivity(), "dark_theme", menu);
+
     }
 
     @Override

@@ -35,7 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.appthemeengine.ATE;
+
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.PlaylistAdapter;
 import com.naman14.timber.dataloaders.PlaylistLoader;
@@ -195,11 +195,6 @@ public class PlaylistFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
-            ATE.apply(this, "dark_theme");
-        } else {
-            ATE.apply(this, "light_theme");
-        }
     }
 
     @Override

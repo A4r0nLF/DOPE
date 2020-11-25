@@ -38,8 +38,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.Config;
-import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
-import com.afollestad.appthemeengine.customizers.ATEToolbarCustomizer;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.R;
@@ -61,7 +59,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlaylistDetailActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer {
+public class PlaylistDetailActivity extends BaseActivity {
 
     private String action;
     private long playlistID;
@@ -207,12 +205,8 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST, R.drawable.item_divider_white));
     }
 
-    @StyleRes
-    @Override
-    public int getActivityTheme() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ? R.style.AppTheme_FullScreen_Dark : R.style.AppTheme_FullScreen_Light;
 
-    }
+
 
     private class loadLastAdded extends AsyncTask<String, Void, String> {
 
@@ -396,13 +390,4 @@ public class PlaylistDetailActivity extends BaseActivity implements ATEActivityT
             mAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public int getToolbarColor() {
-        return Color.TRANSPARENT;
-    }
-
-    @Override
-    public int getLightToolbarMode() {
-        return Config.LIGHT_TOOLBAR_AUTO;
-    }
 }

@@ -32,7 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.Config;
+
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.activities.BaseActivity;
@@ -162,7 +162,7 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         layoutParams.setMargins(0, -(mProgress.getMeasuredHeight() / 2), 0, 0);
         mProgress.setLayoutParams(layoutParams);
 
-        mPlayPause.setColor(Config.accentColor(getActivity(), Helpers.getATEKey(getActivity())));
+
         mPlayPauseExpanded.setColor(Color.WHITE);
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

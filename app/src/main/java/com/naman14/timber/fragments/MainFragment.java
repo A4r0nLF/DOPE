@@ -28,8 +28,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.appthemeengine.ATE;
-import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Helpers;
@@ -78,11 +76,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
-            ATE.apply(this, "dark_theme");
-        } else {
-            ATE.apply(this, "light_theme");
-        }
         viewPager.setCurrentItem(mPreferences.getStartPageIndex());
     }
 
@@ -106,7 +99,7 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         String ateKey = Helpers.getATEKey(getActivity());
-        ATEUtils.setStatusBarColor(getActivity(), ateKey, Config.primaryColor(getActivity(), ateKey));
+
 
     }
 
