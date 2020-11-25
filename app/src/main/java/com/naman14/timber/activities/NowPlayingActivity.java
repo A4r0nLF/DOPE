@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.afollestad.appthemeengine.Config;
+
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;

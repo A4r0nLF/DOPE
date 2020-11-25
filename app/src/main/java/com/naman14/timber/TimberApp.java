@@ -16,7 +16,7 @@ package com.naman14.timber;
 
 import androidx.multidex.MultiDexApplication;
 
-import com.afollestad.appthemeengine.ATE;
+
 import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.utils.PreferencesUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -57,44 +57,8 @@ public class TimberApp extends MultiDexApplication {
         L.writeDebugLogs(false);
         Nammu.init(this);
 
-        if (!ATE.config(this, "light_theme").isConfigured()) {
-            ATE.config(this, "light_theme")
-                    .activityTheme(R.style.AppThemeLight)
-                    .primaryColorRes(R.color.colorPrimaryLightDefault)
-                    .accentColorRes(R.color.colorAccentLightDefault)
-                    .coloredNavigationBar(false)
-                    .usingMaterialDialogs(true)
-                    .commit();
-        }
-        if (!ATE.config(this, "dark_theme").isConfigured()) {
-            ATE.config(this, "dark_theme")
-                    .activityTheme(R.style.AppThemeDark)
-                    .primaryColorRes(R.color.colorPrimaryDarkDefault)
-                    .accentColorRes(R.color.colorAccentDarkDefault)
-                    .coloredNavigationBar(false)
-                    .usingMaterialDialogs(true)
-                    .commit();
-        }
-        if (!ATE.config(this, "light_theme_notoolbar").isConfigured()) {
-            ATE.config(this, "light_theme_notoolbar")
-                    .activityTheme(R.style.AppThemeLight)
-                    .coloredActionBar(false)
-                    .primaryColorRes(R.color.colorPrimaryLightDefault)
-                    .accentColorRes(R.color.colorAccentLightDefault)
-                    .coloredNavigationBar(false)
-                    .usingMaterialDialogs(true)
-                    .commit();
-        }
-        if (!ATE.config(this, "dark_theme_notoolbar").isConfigured()) {
-            ATE.config(this, "dark_theme_notoolbar")
-                    .activityTheme(R.style.AppThemeDark)
-                    .coloredActionBar(false)
-                    .primaryColorRes(R.color.colorPrimaryDarkDefault)
-                    .accentColorRes(R.color.colorAccentDarkDefault)
-                    .coloredNavigationBar(true)
-                    .usingMaterialDialogs(true)
-                    .commit();
-        }
+
+
 
     }
 

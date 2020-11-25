@@ -40,8 +40,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.appthemeengine.ATE;
-import com.afollestad.appthemeengine.Config;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
 import com.naman14.timber.R;
@@ -230,7 +228,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ateKey = Helpers.getATEKey(getActivity());
-        accentColor = Config.accentColor(getActivity(), ateKey);
+
     }
 
     @Override
@@ -371,11 +369,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("dark_theme", false)) {
-            ATE.apply(this, "dark_theme");
-        } else {
-            ATE.apply(this, "light_theme");
-        }
+
     }
 
     private void setSongDetails() {
@@ -437,9 +431,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
                     .setSizeDp(30);
 
             if (getActivity() != null) {
-                if (MusicPlayer.getShuffleMode() == 0) {
-                    builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
-                } else builder.setColor(Config.accentColor(getActivity(), ateKey));
+
             }
 
             shuffle.setImageDrawable(builder.build());
@@ -461,12 +453,12 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
 
                 if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_NONE) {
                     builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
-                    builder.setColor(Config.textColorPrimary(getActivity(), ateKey));
+
                 } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_CURRENT) {
                     builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT_ONCE);
-                    builder.setColor(Config.accentColor(getActivity(), ateKey));
+
                 } else if (MusicPlayer.getRepeatMode() == MusicService.REPEAT_ALL) {
-                    builder.setColor(Config.accentColor(getActivity(), ateKey));
+
                     builder.setIcon(MaterialDrawableBuilder.IconValue.REPEAT);
                 }
 

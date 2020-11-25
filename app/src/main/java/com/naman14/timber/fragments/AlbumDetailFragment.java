@@ -50,7 +50,6 @@ import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.listeners.SimplelTransitionListener;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Song;
-import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.FabAnimationUtils;
 import com.naman14.timber.utils.Helpers;
@@ -198,15 +197,13 @@ public class AlbumDetailFragment extends Fragment {
                                                                               if (swatch != null) {
                                                                                   primaryColor = swatch.getRgb();
                                                                                   collapsingToolbarLayout.setContentScrimColor(primaryColor);
-                                                                                  if (getActivity() != null)
-                                                                                      ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+
                                                                               } else {
                                                                                   Palette.Swatch swatchMuted = palette.getMutedSwatch();
                                                                                   if (swatchMuted != null) {
                                                                                       primaryColor = swatchMuted.getRgb();
                                                                                       collapsingToolbarLayout.setContentScrimColor(primaryColor);
-                                                                                      if (getActivity() != null)
-                                                                                          ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+
                                                                                   }
                                                                               }
 
@@ -216,7 +213,6 @@ public class AlbumDetailFragment extends Fragment {
                                                                                           .setSizeDp(30);
                                                                                   if (primaryColor != -1) {
                                                                                       builder.setColor(TimberUtils.getBlackWhiteColor(primaryColor));
-                                                                                      ATEUtils.setFabBackgroundTint(fab, primaryColor);
                                                                                       fab.setImageDrawable(builder.build());
                                                                                   } else {
                                                                                       if (context != null) {
@@ -345,8 +341,7 @@ public class AlbumDetailFragment extends Fragment {
         toolbar.setBackgroundColor(Color.TRANSPARENT);
         if (primaryColor != -1 && getActivity() != null) {
             collapsingToolbarLayout.setContentScrimColor(primaryColor);
-            ATEUtils.setFabBackgroundTint(fab, primaryColor);
-            ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
+
         }
 
     }

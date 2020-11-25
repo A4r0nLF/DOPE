@@ -48,7 +48,6 @@ import com.naman14.timber.lastfmapi.models.ArtistQuery;
 import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.models.Song;
-import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.ImageUtils;
@@ -149,15 +148,15 @@ public class ArtistDetailFragment extends Fragment {
                                                 if (swatch != null) {
                                                     primaryColor = swatch.getRgb();
                                                     collapsingToolbarLayout.setContentScrimColor(primaryColor);
-                                                    if (getActivity() != null)
-                                                        ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+
+
                                                 } else {
                                                     Palette.Swatch swatchMuted = palette.getMutedSwatch();
                                                     if (swatchMuted != null) {
                                                         primaryColor = swatchMuted.getRgb();
                                                         collapsingToolbarLayout.setContentScrimColor(primaryColor);
-                                                        if (getActivity() != null)
-                                                            ATEUtils.setStatusBarColor(getActivity(), Helpers.getATEKey(getActivity()), primaryColor);
+
+
                                                     }
                                                 }
 
@@ -230,7 +229,7 @@ public class ArtistDetailFragment extends Fragment {
         if (primaryColor != -1 && getActivity() != null) {
             collapsingToolbarLayout.setContentScrimColor(primaryColor);
             String ateKey = Helpers.getATEKey(getActivity());
-            ATEUtils.setStatusBarColor(getActivity(), ateKey, primaryColor);
+
         }
 
     }

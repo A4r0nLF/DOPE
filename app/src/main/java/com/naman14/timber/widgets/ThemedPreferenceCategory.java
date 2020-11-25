@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.Config;
+
 import com.naman14.timber.utils.Helpers;
 
 /**
@@ -36,6 +36,5 @@ public class ThemedPreferenceCategory extends PreferenceCategory {
     protected void onBindView(View view) {
         super.onBindView(view);
         TextView titleView = (TextView) view.findViewById(android.R.id.title);
-        titleView.setTextColor(Config.accentColor(context, Helpers.getATEKey(context)));
     }
 }

@@ -25,9 +25,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.afollestad.appthemeengine.ATE;
-import com.afollestad.appthemeengine.Config;
-import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.SettingsFragment;
@@ -35,7 +33,7 @@ import com.naman14.timber.subfragments.StyleSelectorFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.PreferencesUtility;
 
-public class SettingsActivity extends BaseThemedActivity implements ColorChooserDialog.ColorCallback, ATEActivityThemeCustomizer {
+public class SettingsActivity extends BaseThemedActivity implements ColorChooserDialog.ColorCallback {
 
     private String action;
 
@@ -85,12 +83,7 @@ public class SettingsActivity extends BaseThemedActivity implements ColorChooser
         return super.onOptionsItemSelected(item);
     }
 
-    @StyleRes
-    @Override
-    public int getActivityTheme() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false) ?
-                R.style.AppThemeDark : R.style.AppThemeLight;
-    }
+
 
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {

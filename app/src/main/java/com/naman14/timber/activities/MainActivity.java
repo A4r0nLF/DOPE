@@ -35,7 +35,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.customizers.ATEActivityThemeCustomizer;
+
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.google.android.gms.cast.framework.media.widget.ExpandedControllerActivity;
 import com.naman14.timber.MusicPlayer;
@@ -61,7 +61,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends BaseActivity implements ATEActivityThemeCustomizer {
+public class MainActivity extends BaseActivity{
 
     private SlidingUpPanelLayout panelLayout;
     private NavigationView navigationView;
@@ -458,10 +458,7 @@ public class MainActivity extends BaseActivity implements ATEActivityThemeCustom
     }
 
 
-    @Override
-    public int getActivityTheme() {
-        return isDarkTheme ? R.style.AppThemeNormalDark : R.style.AppThemeNormalLight;
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

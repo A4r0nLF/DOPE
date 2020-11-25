@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.appthemeengine.Config;
+
 import com.naman14.timber.utils.Helpers;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -64,7 +64,6 @@ public class BaseRecyclerView extends RecyclerView {
 
         MaterialDrawableBuilder builder = MaterialDrawableBuilder.with(context)
                 .setIcon(MaterialDrawableBuilder.IconValue.MUSIC_NOTE)
-                .setColor(Config.textColorPrimary(context, Helpers.getATEKey(context)))
                 .setSizeDp(30);
 
         ((TextView) emptyView).setCompoundDrawables(null, builder.build(), null, null);

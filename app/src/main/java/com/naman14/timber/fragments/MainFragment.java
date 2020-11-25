@@ -15,7 +15,7 @@
 package com.naman14.timber.fragments;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.naman14.timber.R;
-import com.naman14.timber.utils.ATEUtils;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.PreferencesUtility;
 
