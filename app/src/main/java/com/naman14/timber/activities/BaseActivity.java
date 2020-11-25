@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,7 +63,7 @@ import java.util.ArrayList;
 
 import static com.naman14.timber.MusicPlayer.mService;
 
-public class BaseActivity extends ATEActivity implements ServiceConnection, MusicStateListener {
+public class BaseActivity extends AppCompatActivity implements ServiceConnection, MusicStateListener {
 
     private final ArrayList<MusicStateListener> mMusicStateListener = new ArrayList<>();
     private MusicPlayer.ServiceToken mToken;
@@ -277,7 +278,7 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         if (!TimberUtils.hasEffectsPanel(BaseActivity.this)) {
             menu.removeItem(R.id.action_equalizer);
         }
-        ATE.applyMenu(this, getATEKey(), menu);
+
         return true;
     }
 
@@ -311,11 +312,8 @@ public class BaseActivity extends ATEActivity implements ServiceConnection, Musi
         return super.onOptionsItemSelected(item);
     }
 
-    @Nullable
-    @Override
-    public String getATEKey() {
-        return Helpers.getATEKey(this);
-    }
+
+
 
     public void setPanelSlideListeners(SlidingUpPanelLayout panelLayout) {
         panelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {

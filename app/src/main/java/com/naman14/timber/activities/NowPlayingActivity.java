@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -21,7 +22,7 @@ import com.naman14.timber.utils.PreferencesUtility;
 /**
  * Created by naman on 01/01/16.
  */
-public class NowPlayingActivity extends BaseActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer, ATEStatusBarCustomizer {
+public class NowPlayingActivity extends AppCompatActivity implements ATEActivityThemeCustomizer, ATEToolbarCustomizer, ATEStatusBarCustomizer {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -3,6 +3,7 @@ package com.naman14.timber.activities;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.afollestad.appthemeengine.ATEActivity;
 import com.naman14.timber.utils.Helpers;
@@ -10,13 +11,10 @@ import com.naman14.timber.utils.Helpers;
 /**
  * Created by naman on 31/12/15.
  */
-public class BaseThemedActivity extends ATEActivity {
+public class BaseThemedActivity extends AppCompatActivity {
 
-    @Nullable
-    @Override
-    public String getATEKey() {
-        return Helpers.getATEKey(this);
-    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

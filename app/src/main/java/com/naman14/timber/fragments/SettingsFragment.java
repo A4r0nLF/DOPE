@@ -177,7 +177,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     public void invalidateSettings() {
-        mAteKey = ((SettingsActivity) getActivity()).getATEKey();
+
 
         ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
         primaryColorPref.setColor(Config.primaryColor(getActivity(), mAteKey), Color.BLACK);
