@@ -20,7 +20,7 @@
 -keep class com.squareup.okhttp.** { *; }
 -keep class retrofit.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
--keep class com.naman14.timber.lastfmapi.models.** { *; }
+-keep class com.naman14.timber.apis.models.** { *; }
 
 -keep class android.support.v4.app.** { *; }
 -keep interface android.support.v4.app.** { *; }

@@ -25,10 +25,6 @@ import android.widget.ImageView;
 
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.AlbumLoader;
-import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.callbacks.AlbumInfoListener;
-import com.naman14.timber.lastfmapi.models.AlbumQuery;
-import com.naman14.timber.lastfmapi.models.LastfmAlbum;
 import com.naman14.timber.models.Album;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -88,32 +84,6 @@ public class ImageUtils {
 
     private static void loadAlbumArtFromLastfm(long albumId, final ImageView albumArt, final ImageLoadingListener listener) {
         Album album = AlbumLoader.getAlbum(albumArt.getContext(), albumId);
-        LastFmClient.getInstance(albumArt.getContext())
-                .getAlbumInfo(new AlbumQuery(album.title, album.artistName),
-                              new AlbumInfoListener() {
-                                  @Override
-                                  public void albumInfoSuccess(final LastfmAlbum album) {
-                                      if (album != null) {
-                                          ImageLoader.getInstance()
-                                                  .displayImage(album.mArtwork.get(4).mUrl,
-                                                                albumArt,
-                                                                lastfmDisplayImageOptions, new SimpleImageLoadingListener(){
-                                                              @Override
-                                                              public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                                                  listener.onLoadingComplete(imageUri, view, loadedImage);
-                                                              }
-
-                                                              @Override
-                                                              public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                                                  listener.onLoadingFailed(imageUri, view, failReason);
-                                                              }
-                                                          });
-                                      }
-                                  }
-
-                                  @Override
-                                  public void albumInfoFailed() { }
-                              });
     }
 
     public static Drawable createBlurredImageFromBitmap(Bitmap bitmap, Context context, int inSampleSize) {

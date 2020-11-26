@@ -14,8 +14,8 @@
     <PreferenceCategory android:title="Layout">
         <CheckBoxPreference
             android:key="checkBox"
-            android:summary="On/Off"
-            android:title="dark_layout" />
+            android:summary="@string/dark_theme_summary"
+            android:title="@string/dark_theme" />
     </PreferenceCategory>
 
     <ListPreference
@@ -24,7 +24,7 @@
         android:key="listpref"
         android:summary="List preference example"
         android:title="List preference" />
-
+<!--
     <PreferenceCategory
         android:summary="Username and password information"
         android:title="Login information" >
@@ -37,18 +37,7 @@
             android:summary="Enter your password"
             android:title="Password" />
     </PreferenceCategory>
-
-    <PreferenceCategory android:title="LastFM">
-
-        <Preference
-            android:key="lastfm_login"
-            android:summary="@string/lastfm_pref"
-            android:title="Login" />
-
-
-    </PreferenceCategory>
-
-
+-->
 
 
 

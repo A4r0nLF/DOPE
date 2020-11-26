@@ -14,9 +14,7 @@
 
 package com.naman14.timber.fragments;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -25,11 +23,7 @@ import android.preference.SwitchPreference;
 import android.view.View;
 
 
-import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.naman14.timber.R;
-import com.naman14.timber.activities.SettingsActivity;
-import com.naman14.timber.dialogs.LastFmLoginDialog;
-import com.naman14.timber.lastfmapi.LastFmClient;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -70,8 +64,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         xposed = findPreference(XPOSED);
 
-        lastFMlogin = findPreference(LASTFM_LOGIN);
-        updateLastFM();
+
 //        themePreference = (ListPreference) findPreference(KEY_THEME);
         startPagePreference = (ListPreference) findPreference(KEY_START_PAGE);
 
@@ -94,19 +87,4 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     }
 
-
-
-
-    public void updateLastFM() {
-        String username = LastFmClient.getInstance(getActivity()).getUsername();
-        if (username != null) {
-            lastFMlogedin = true;
-            lastFMlogin.setTitle("Logout");
-            lastFMlogin.setSummary(String.format(getString(R.string.lastfm_loged_in),username));
-        } else {
-            lastFMlogedin = false;
-            lastFMlogin.setTitle("Login");
-            lastFMlogin.setSummary(getString(R.string.lastfm_pref));
-        }
-    }
 }

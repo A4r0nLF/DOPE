@@ -70,9 +70,6 @@ import android.util.Log;
 
 import com.naman14.timber.helpers.MediaButtonIntentReceiver;
 import com.naman14.timber.helpers.MusicPlaybackTrack;
-import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.models.LastfmUserSession;
-import com.naman14.timber.lastfmapi.models.ScrobbleQuery;
 import com.naman14.timber.permissions.Nammu;
 import com.naman14.timber.provider.MusicPlaybackState;
 import com.naman14.timber.provider.RecentStore;
@@ -362,10 +359,7 @@ public class MusicService extends Service {
         reloadQueueAfterPermissionCheck();
         notifyChange(QUEUE_CHANGED);
         notifyChange(META_CHANGED);
-        //Try to push LastFMCache
-        if (LastfmUserSession.getSession(this) != null) {
-            LastFmClient.getInstance(this).Scrobble(null);
-        }
+
         PreferencesUtility pref = PreferencesUtility.getInstance(this);
         mShowAlbumArtOnLockscreen = pref.getSetAlbumartLockscreen();
         mActivateXTrackSelector = pref.getXPosedTrackselectorEnabled();
@@ -438,10 +432,8 @@ public class MusicService extends Service {
     public void onDestroy() {
         if (D) Log.d(TAG, "Destroying service");
         super.onDestroy();
-        //Try to push LastFMCache
-        if (LastfmUserSession.getSession(this).isLogedin()) {
-            LastFmClient.getInstance(this).Scrobble(null);
-        }
+
+
         // Remove any sound effects
         final Intent audioEffectsIntent = new Intent(
                 AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
@@ -504,14 +496,7 @@ public class MusicService extends Service {
         return START_NOT_STICKY; //no sense to use START_STICKY with using startForeground
     }
 
-    void scrobble() {
-        if (LastfmUserSession.getSession(this).isLogedin()) {
-            Log.d("Scrobble", "to LastFM");
-            String trackname = getTrackName();
-            if (trackname != null)
-                LastFmClient.getInstance(this).Scrobble(new ScrobbleQuery(getArtistName(), trackname, System.currentTimeMillis() / 1000));
-        }
-    }
+
 
     private void releaseServiceUiAndStop() {
         if (isPlaying()
@@ -582,13 +567,6 @@ public class MusicService extends Service {
     private void onPreferencesUpdate(Bundle extras) {
         mShowAlbumArtOnLockscreen = extras.getBoolean("lockscreen", mShowAlbumArtOnLockscreen);
         mActivateXTrackSelector = extras.getBoolean("xtrack",mActivateXTrackSelector);
-        LastfmUserSession session = LastfmUserSession.getSession(this);
-        session.mToken = extras.getString("lf_token", session.mToken);
-        session.mUsername = extras.getString("lf_user", session.mUsername);
-        if ("logout".equals(session.mToken)) {
-            session.mToken = null;
-            session.mUsername = null;
-        }
         notifyChange(META_CHANGED);
 
     }
@@ -710,9 +688,7 @@ public class MusicService extends Service {
         if (D) Log.d(TAG, "Stopping playback, goToIdle = " + goToIdle);
         long duration = this.duration();
         long position = this.position();
-        if (duration > 30000 && (position >= duration / 2) || position > 240000) {
-            scrobble();
-        }
+
 
         if (mPlayer.isInitialized()) {
             mPlayer.stop();
@@ -2290,7 +2266,6 @@ public class MusicService extends Service {
                         }
                         break;
                     case TRACK_WENT_TO_NEXT:
-                        mService.get().scrobble();
                         service.setAndRecordPlayPos(service.mNextPlayPos);
                         service.setNextTrack();
                         if (service.mCursor != null) {

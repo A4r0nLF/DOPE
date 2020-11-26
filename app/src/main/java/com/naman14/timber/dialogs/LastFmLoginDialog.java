@@ -12,9 +12,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.naman14.timber.R;
 import com.naman14.timber.fragments.SettingsFragment;
-import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.callbacks.UserListener;
-import com.naman14.timber.lastfmapi.models.UserLoginQuery;
+
 
 /**
  * Created by christoph on 17.07.16.
@@ -38,22 +36,7 @@ public class LastFmLoginDialog extends DialogFragment {
                         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
                         progressDialog.setMessage("Logging in..");
                         progressDialog.show();
-                        LastFmClient.getInstance(getActivity()).getUserLoginInfo(new UserLoginQuery(username, password), new UserListener() {
 
-                            @Override
-                            public void userSuccess() {
-                                progressDialog.dismiss();
-                                if (getTargetFragment() instanceof SettingsFragment) {
-                                    ((SettingsFragment) getTargetFragment()).updateLastFM();
-                                }
-                            }
-
-                            @Override
-                            public void userInfoFailed() {
-                                progressDialog.dismiss();
-                                Toast.makeText(getTargetFragment().getActivity(), getString(R.string.lastfm_login_failture), Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                 }).build();
     }

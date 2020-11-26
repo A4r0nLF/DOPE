@@ -29,10 +29,6 @@ import android.widget.TextView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.dialogs.AddPlaylistDialog;
-import com.naman14.timber.lastfmapi.LastFmClient;
-import com.naman14.timber.lastfmapi.callbacks.ArtistInfoListener;
-import com.naman14.timber.lastfmapi.models.ArtistQuery;
-import com.naman14.timber.lastfmapi.models.LastfmArtist;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.models.Song;
@@ -115,25 +111,6 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                 String albumNmber = TimberUtils.makeLabel(mContext, R.plurals.Nalbums, artist.albumCount);
                 String songCount = TimberUtils.makeLabel(mContext, R.plurals.Nsongs, artist.songCount);
                 itemHolder.albumsongcount.setText(TimberUtils.makeCombinedString(mContext, albumNmber, songCount));
-                LastFmClient.getInstance(mContext).getArtistInfo(new ArtistQuery(artist.name), new ArtistInfoListener() {
-                    @Override
-                    public void artistInfoSucess(LastfmArtist artist) {
-                        if (artist != null && itemHolder.artistImage != null) {
-                            ImageLoader.getInstance().displayImage(artist.mArtwork.get(1).mUrl, itemHolder.artistImage,
-                                    new DisplayImageOptions.Builder().cacheInMemory(true)
-                                            .cacheOnDisk(true)
-                                            .showImageOnFail(R.drawable.ic_empty_music2)
-                                            .resetViewBeforeLoading(true)
-                                            .displayer(new FadeInBitmapDisplayer(400))
-                                            .build());
-                        }
-                    }
-
-                    @Override
-                    public void artistInfoFailed() {
-
-                    }
-                });
                 break;
             case 10:
                 itemHolder.sectionHeader.setText((String) searchResults.get(i));
