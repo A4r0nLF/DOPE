@@ -2,19 +2,43 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="@string/now_playing">
+    <PreferenceCategory android:title="@string/now_playing">
 
         <Preference
             android:key="now_playing_selector"
             android:summary="@string/now_playing_selector"
             android:title="@string/now_playing" />
 
-    </com.naman14.timber.widgets.ThemedPreferenceCategory>
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="Layout">
+        <CheckBoxPreference
+            android:key="checkBox"
+            android:summary="On/Off"
+            android:title="dark_layout" />
+    </PreferenceCategory>
 
+    <ListPreference
+        android:entries="@array/pref_startpage_entries"
+        android:entryValues="@array/pref_startpage_values"
+        android:key="listpref"
+        android:summary="List preference example"
+        android:title="List preference" />
 
+    <PreferenceCategory
+        android:summary="Username and password information"
+        android:title="Login information" >
+        <EditTextPreference
+            android:key="username"
+            android:summary="Please enter your login username"
+            android:title="Username" />
+        <EditTextPreference
+            android:key="password"
+            android:summary="Enter your password"
+            android:title="Password" />
+    </PreferenceCategory>
 
-    <com.naman14.timber.widgets.ThemedPreferenceCategory android:title="LastFM">
+    <PreferenceCategory android:title="LastFM">
 
         <Preference
             android:key="lastfm_login"
@@ -22,7 +46,7 @@
             android:title="Login" />
 
 
-    </com.naman14.timber.widgets.ThemedPreferenceCategory>
+    </PreferenceCategory>
 
 
 
