@@ -19,6 +19,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,7 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
     private int lastPosition = -1;
     private String ateKey;
     private long playlistId;
+    private long lastClickTime = 0;
 
     public SongsListAdapter(AppCompatActivity context, List<Song> arraylist, boolean isPlaylistSong, boolean animate) {
         this.arraylist = arraylist;
@@ -239,25 +241,27 @@ public class SongsListAdapter extends BaseSongAdapter<SongsListAdapter.ItemHolde
 
         @Override
         public void onClick(View v) {
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    playAll(mContext, songIDs, getAdapterPosition(), -1,
-                            TimberUtils.IdType.NA, false,
-                            arraylist.get(getAdapterPosition()), false);
-                    Handler handler1 = new Handler();
-                    handler1.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            notifyItemChanged(currentlyPlayingPosition);
-                            notifyItemChanged(getAdapterPosition());
-                        }
-                    }, 50);
-                }
-            }, 100);
+            if (SystemClock.elapsedRealtime() - lastClickTime > 800) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        playAll(mContext, songIDs, getAdapterPosition(), -1,
+                                TimberUtils.IdType.NA, false,
+                                arraylist.get(getAdapterPosition()), false);
+                        Handler handler1 = new Handler();
+                        handler1.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                notifyItemChanged(currentlyPlayingPosition);
+                                notifyItemChanged(getAdapterPosition());
+                            }
+                        }, 50);
+                    }
+                }, 100);
 
-
+            }
+            lastClickTime = SystemClock.elapsedRealtime();
         }
 
     }
