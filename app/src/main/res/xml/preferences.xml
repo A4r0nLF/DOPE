@@ -13,9 +13,10 @@
 
     <PreferenceCategory android:title="Layout">
         <CheckBoxPreference
-            android:key="checkBox"
+            android:key="dark_theme"
             android:summary="@string/dark_theme_summary"
-            android:title="@string/dark_theme" />
+            android:title="@string/dark_theme"
+            />
     </PreferenceCategory>
 
     <ListPreference

@@ -23,6 +23,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.MusicService;
@@ -69,6 +70,7 @@ public final class PreferencesUtility {
     public PreferencesUtility(final Context context) {
         this.context = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        setTheme();
     }
 
     public static final PreferencesUtility getInstance(final Context context) {
@@ -107,9 +109,20 @@ public final class PreferencesUtility {
         return mPreferences.getBoolean(TOGGLE_HEADPHONE_PAUSE, true);
     }
 
+    public void setTheme(){
+        SharedPreferences.Editor editor = mPreferences.edit();
+        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dark_theme", false)) {
+            editor.putString(THEME_PREFERNCE,"dark");
+        }else {
+            editor.putString(THEME_PREFERNCE,"light");
+        }
+        editor.apply();
+    }
+
     public String getTheme() {
         return mPreferences.getString(THEME_PREFERNCE, "light");
     }
+
 
     public int getStartPageIndex() {
         return mPreferences.getInt(START_PAGE_INDEX, 0);

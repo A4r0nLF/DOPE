@@ -23,6 +23,8 @@ import androidx.annotation.StyleRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.MenuItem;
 
 
@@ -42,8 +44,9 @@ public class SettingsActivity extends BaseThemedActivity implements ColorChooser
 
         if (PreferencesUtility.getInstance(this).getTheme().equals("dark"))
             setTheme(R.style.AppThemeNormalDark);
-        else if (PreferencesUtility.getInstance(this).getTheme().equals("black"))
-            setTheme(R.style.AppThemeNormalBlack);
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 

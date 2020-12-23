@@ -21,6 +21,8 @@ import com.naman14.timber.utils.PreferencesUtility;
  */
 public class NowPlayingActivity extends BaseActivity{
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public class NowPlayingActivity extends BaseActivity{
 
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment).commit();
+
 
     }
 

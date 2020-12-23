@@ -16,6 +16,7 @@ package com.naman14.timber.activities;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -26,6 +27,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,9 +57,11 @@ import com.naman14.timber.subfragments.LyricsFragment;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.Helpers;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.PreferencesUtility;
 import com.naman14.timber.utils.TimberUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -171,7 +176,11 @@ public class MainActivity extends BaseActivity{
 
         action = getIntent().getAction();
 
-        isDarkTheme = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dark_theme", false);
+
+        //Check if shared pref dark Layout is enabled
+        isDarkTheme = PreferencesUtility.getInstance(this).getTheme().equals("dark");
+        if(isDarkTheme){ setTheme(R.style.AppThemeNormalDark); }
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
