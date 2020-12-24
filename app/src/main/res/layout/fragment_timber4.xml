@@ -91,7 +91,7 @@
                             android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
-                            android:src="@color/black_translucent" />
+                             />
 
                         <LinearLayout
                             android:layout_width="wrap_content"

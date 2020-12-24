@@ -44,7 +44,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ItemHo
     private long totalRuntime;
     private long firstAlbumID = -1;
     private int foregroundColor;
-    int[] foregroundColors = {R.color.pink_transparent, R.color.green_transparent, R.color.blue_transparent, R.color.red_transparent, R.color.purple_transparent};
+
 
     public PlaylistAdapter(Activity context, List<Playlist> arraylist) {
         this.arraylist = arraylist;
@@ -52,8 +52,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ItemHo
         this.isGrid = PreferencesUtility.getInstance(mContext).getPlaylistView() == Constants.PLAYLIST_VIEW_GRID;
         this.showAuto = PreferencesUtility.getInstance(mContext).showAutoPlaylist();
         Random random = new Random();
-        int rndInt = random.nextInt(foregroundColors.length);
-        foregroundColor = foregroundColors[rndInt];
+
 
     }
 
