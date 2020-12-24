@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity{
 
         //Check if shared pref dark Layout is enabled
         isDarkTheme = PreferencesUtility.getInstance(this).getTheme().equals("dark");
-        if(isDarkTheme){ setTheme(R.style.AppThemeNormalDark); }
+        if(isDarkTheme){ setTheme(R.style.ThemeBaseDark); }
 
 
         super.onCreate(savedInstanceState);

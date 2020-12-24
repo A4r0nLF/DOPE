@@ -44,6 +44,7 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.provider.SearchHistory;
+import com.naman14.timber.utils.PreferencesUtility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,6 +76,9 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+
+        if(PreferencesUtility.getInstance(this).getTheme().equals("dark")) setTheme(R.style.ThemeBaseDark);
 
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 

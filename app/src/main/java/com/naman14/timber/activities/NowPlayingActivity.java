@@ -27,6 +27,7 @@ public class NowPlayingActivity extends BaseActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nowplaying);
+        if(PreferencesUtility.getInstance(this).getTheme().equals("dark")) setTheme(R.style.ThemeBaseDark);
         SharedPreferences prefs = getSharedPreferences(Constants.FRAGMENT_ID, Context.MODE_PRIVATE);
         String fragmentID = prefs.getString(Constants.NOWPLAYING_FRAGMENT_ID, Constants.TIMBER3);
 

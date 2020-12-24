@@ -19,7 +19,7 @@
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="DOPE"
-        android:theme="@style/AppTheme.FullScreen.Light"
+        android:theme="@style/ThemeBaseLight"
         tools:replace="android:allowBackup, android:label">
 
         <activity
@@ -70,21 +70,21 @@
 
         <activity
             android:name=".activities.SettingsActivity"
-            android:theme="@style/AppThemeNormalLight" />
+            android:theme="@style/ThemeBaseLight" />
 
         <activity
             android:name=".activities.PlaylistDetailActivity"
-            android:theme="@style/AppTheme.FullScreen.Light" />
+            android:theme="@style/ThemeBaseLight" />
 
         <activity
             android:name=".activities.SearchActivity"
-            android:theme="@style/AppThemeNormalLight" />
+            android:theme="@style/ThemeBaseLight" />
 
         <activity
             android:name=".activities.NowPlayingActivity"
-            android:theme="@style/AppTheme.FullScreen.Light" />
+            android:theme="@style/ThemeBaseLight" />
 
-        <activity android:name=".activities.DonateActivity"/>
+
 
         <activity
             android:name=".cast.ExpandedControlsActivity"

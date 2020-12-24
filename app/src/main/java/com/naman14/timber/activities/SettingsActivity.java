@@ -43,7 +43,7 @@ public class SettingsActivity extends BaseThemedActivity implements ColorChooser
     public void onCreate(Bundle savedInstanceState) {
 
         if (PreferencesUtility.getInstance(this).getTheme().equals("dark"))
-            setTheme(R.style.AppThemeNormalDark);
+            setTheme(R.style.ThemeBaseDark);
 
 
 
