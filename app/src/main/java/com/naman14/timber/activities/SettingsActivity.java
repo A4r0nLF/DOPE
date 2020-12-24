@@ -20,6 +20,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.widget.Toolbar;
@@ -42,8 +43,7 @@ public class SettingsActivity extends BaseThemedActivity implements ColorChooser
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        if (PreferencesUtility.getInstance(this).getTheme().equals("dark"))
-            setTheme(R.style.ThemeBaseDark);
+        if (PreferencesUtility.getInstance(this).getTheme().equals("dark")) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
 
 

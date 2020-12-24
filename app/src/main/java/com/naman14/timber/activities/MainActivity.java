@@ -22,6 +22,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -179,7 +181,7 @@ public class MainActivity extends BaseActivity{
 
         //Check if shared pref dark Layout is enabled
         isDarkTheme = PreferencesUtility.getInstance(this).getTheme().equals("dark");
-        if(isDarkTheme){ setTheme(R.style.ThemeBaseDark); }
+        if(isDarkTheme)AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
 
         super.onCreate(savedInstanceState);

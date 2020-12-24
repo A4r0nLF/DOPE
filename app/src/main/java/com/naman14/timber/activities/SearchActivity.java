@@ -18,6 +18,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,7 +79,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         setContentView(R.layout.activity_search);
 
 
-        if(PreferencesUtility.getInstance(this).getTheme().equals("dark")) setTheme(R.style.ThemeBaseDark);
+       if(PreferencesUtility.getInstance(this).getTheme().equals("dark")) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 

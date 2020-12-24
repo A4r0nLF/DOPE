@@ -49,6 +49,24 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.MyTheme.BottomSheetDialog</item>
         <item name="navigationViewStyle">@style/Widget.MyTheme.NavigationView</item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
+
+
+
+        <!-- Old Theme-->
+        <item name="colorAccent">@color/purple_700</item>
+        <item name="android:windowBackground">@color/white_50</item>
+        <item name="cardStyle">@style/CardViewStyle.Light</item>
+        <item name="accentColor">@color/purple_700</item>
+        <item name="iconColor">@color/black_800</item>
+        <item name="windowBackground">@color/white_50</item>
+        <item name="stateSelector">@color/purple_500</item>
+        <item name="progressBackgroundColor">@color/white_50</item>
+        <item name="progressDrawable">@drawable/progress_drawable</item>
+        <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground</item>
+        <item name="ate_key">light_theme</item>
+        <!-- End Old Theme-->
+
+
     </style>
     <style name="Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">?attr/colorSurface</item>
@@ -57,6 +75,8 @@
         <item name="android:windowLightNavigationBar" >true</item>
         <item name="android:navigationBarDividerColor">?attr/colorControlHighlight</item>
     </style>
+
+
 
 
 
