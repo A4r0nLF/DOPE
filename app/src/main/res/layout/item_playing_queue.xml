@@ -20,7 +20,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="center"
             app:materialIcon="drag_vertical"
-            app:materialIconColor="?attr/iconColor"
+            app:materialIconColor="?attr/colorPrimary"
             app:materialIconSize="30dp" />
 
 

@@ -7,7 +7,7 @@
     android:paddingLeft="25dp"
     app:cardUseCompatPadding="true"
     android:id="@+id/root_view"
-    style="?attr/cardStyle">
+    >
 
     <RelativeLayout
         android:layout_width="104dp"

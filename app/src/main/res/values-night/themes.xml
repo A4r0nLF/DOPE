@@ -32,21 +32,5 @@
         <item name="colorOnError">@color/black_900</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-
-        <!-- Old Theme-->
-        <item name="colorPrimaryDark">@color/purple_200</item>
-        <item name="colorAccent">@color/green_200</item>
-        <item name="android:windowBackground">@color/black_900</item>
-        <item name="cardStyle">@style/CardViewStyle.Dark</item>
-        <item name="accentColor">@color/green_200</item>
-        <item name="iconColor">@color/purple_600</item>
-        <item name="windowBackground">@color/black_900</item>
-        <item name="stateSelector">@color/purple_600</item>
-        <item name="progressBackgroundColor">@color/black_800</item>
-        <item name="progressDrawable">@drawable/progress_drawable_dark</item>
-        <item name="progressDrawableWithBackground">@drawable/progress_drawable_withbackground_dark</item>
-        <item name="ate_key">dark_theme</item>
-        <!-- End Old Theme-->
-
     </style>
 </resources>
