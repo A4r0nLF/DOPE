@@ -140,6 +140,8 @@ public class QuickControlsFragment extends Fragment implements MusicStateListene
         this.rootView = rootView;
 
         mPlayPause = (PlayPauseButton) rootView.findViewById(R.id.play_pause);
+        int color = getResources().getColor(R.color.green_500);
+        mPlayPause.setColor(color);
         mPlayPauseExpanded = (PlayPauseButton) rootView.findViewById(R.id.playpause);
         playPauseWrapper = rootView.findViewById(R.id.play_pause_wrapper);
         playPauseWrapperExpanded = rootView.findViewById(R.id.playpausewrapper);

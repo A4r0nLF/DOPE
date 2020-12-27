@@ -15,6 +15,7 @@
 
         <ImageView
             android:id="@+id/albumArt"
+            android:alpha="0.8"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_alignParentLeft="true"

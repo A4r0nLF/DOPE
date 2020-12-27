@@ -166,6 +166,8 @@ public class PlayingQueueAdapter extends RecyclerView.Adapter<PlayingQueueAdapte
             this.menu = (ImageView) view.findViewById(R.id.popup_menu);
             this.reorder = (ImageView) view.findViewById(R.id.reorder);
             visualizer = (MusicVisualizer) view.findViewById(R.id.visualizer);
+            int color = mContext.getColor(R.color.green_200);
+            visualizer.setColor(color);
             view.setOnClickListener(this);
         }
 

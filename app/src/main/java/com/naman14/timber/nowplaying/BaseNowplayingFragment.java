@@ -23,6 +23,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.ActionBar;
@@ -228,6 +230,7 @@ public class BaseNowplayingFragment extends Fragment implements MusicStateListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ateKey = Helpers.getATEKey(getActivity());
+
 
     }
 
