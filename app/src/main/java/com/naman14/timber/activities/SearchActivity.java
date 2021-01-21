@@ -44,6 +44,7 @@ import com.naman14.timber.dataloaders.ArtistLoader;
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
+import com.naman14.timber.models.OnlineSongSearchResult;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.provider.SearchHistory;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -231,9 +232,15 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
               //TODO search results from Youtube Msuic
                 //Simple test Mock
                 ArrayList<Object> objects = new ArrayList<>();
-                objects.add("Youtube search Result");
-                objects.add("Songs");
-                objects.add("Interperten");
+                objects.add("Youtube Music search result");
+                objects.add(new OnlineSongSearchResult((long) -1,(long)-1, (long)-1, "KRIMINELL",
+                        "Kianush", "CROSSOVER", -1, -1,
+                        "https://lh3.googleusercontent.com/Sw48WMfik1RtqP_XUvITUdm4F0Rwi-2IosgcNPkvq2xmh5Iq3NKlCo-mKGVM4Fge7P2rng7m33ebUA0_wA=w544-h544-l90-rj",
+                        "https://music.youtube.com/watch?v=oyF1GUjQZUU&list=RDAMVMfXreChsgHz0"));
+                objects.add(new OnlineSongSearchResult((long) -1,(long)-1, (long)-1, "Neptun",
+                        "KC REbell & Raf Camora", "Nepton", -1, -1,
+                        "https://lh3.googleusercontent.com/yeJQtyrTQuHaYCu6uSEFUSXYwGdY7fa55CikKuL3KckVF1B9hhw43BTCmHL85jNpl7F1sSjxMTPxm8Ij=w544-h544-l90-rj",
+                        "https://music.youtube.com/watch?v=7f-y544iyQg&list=RDAMVM7f-y544iyQg"));
                 adapter.updateSearchResults(objects);
                 adapter.notifyDataSetChanged();
             }

@@ -15,9 +15,14 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +36,7 @@ import com.naman14.timber.R;
 import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
+import com.naman14.timber.models.OnlineSongSearchResult;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
@@ -38,6 +44,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -70,6 +80,10 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                 View v10 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_section_header, null);
                 ItemHolder ml10 = new ItemHolder(v10);
                 return ml10;
+            case 11:
+                View v11 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song_online, null);
+                ItemHolder ml11 = new ItemHolder(v11);
+                return ml11;
             default:
                 View v3 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
                 ItemHolder ml3 = new ItemHolder(v3);
@@ -114,6 +128,17 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                 break;
             case 10:
                 itemHolder.sectionHeader.setText((String) searchResults.get(i));
+                break;
+            case 11:
+                OnlineSongSearchResult songOnline = (OnlineSongSearchResult) searchResults.get(i);
+                itemHolder.title.setText(songOnline.title);
+                itemHolder.songartist.setText(songOnline.albumName);
+
+
+                new DownloadImageTask((ImageView) itemHolder.albumArt)
+                        .execute(songOnline.imgUrl);
+
+                break;
             case 3:
                 break;
         }
@@ -181,6 +206,8 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
             return 1;
         if (searchResults.get(position) instanceof Artist)
             return 2;
+        if (searchResults.get(position) instanceof OnlineSongSearchResult)
+            return 11;
         if (searchResults.get(position) instanceof String)
             return 10;
         return 3;
@@ -237,11 +264,40 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                     break;
                 case 3:
                     break;
+                case 11:
+                    //TODO intent to open song online for testing...
+                    Log.e("New", "Intent");
+                    break;
                 case 10:
                     break;
             }
         }
 
+    }
+
+    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }
 
