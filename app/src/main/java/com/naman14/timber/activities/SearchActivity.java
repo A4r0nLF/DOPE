@@ -17,6 +17,7 @@ package com.naman14.timber.activities;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.MenuItemCompat;
@@ -68,7 +69,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     private List<Object> searchResults = Collections.emptyList();
     private TabLayout tabLayout;
-    TextView textView;
+    private boolean localSearch;
+
 
     Bundle bundle;
 
@@ -79,7 +81,8 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         setContentView(R.layout.activity_search);
 
 
-       if(PreferencesUtility.getInstance(this).getTheme().equals("dark")) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        if (PreferencesUtility.getInstance(this).getTheme().equals("dark"))
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -91,23 +94,25 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);
-        textView = findViewById(R.id.Youtube_placeholde);
 
-        if(savedInstanceState != null && savedInstanceState.containsKey("QUERY_STRING")){
+
+        if (savedInstanceState != null && savedInstanceState.containsKey("QUERY_STRING")) {
             bundle = savedInstanceState;
         }
 
 
+        localSearch = true;
         TabLayout tabLayout = findViewById(R.id.search_location);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 if (tab.getPosition() == 0) {
-                    textView.setVisibility(View.INVISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    localSearch = true;
+                    onQueryTextChange(queryString);
                 } else if (tab.getPosition() == 1) {
-                    recyclerView.setVisibility(View.INVISIBLE);
-                    textView.setVisibility(View.VISIBLE);
+                    localSearch = false;
+                    onQueryTextChange(queryString);
                 }
             }
 
@@ -127,7 +132,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (queryString != null){
+        if (queryString != null) {
             outState.putString("QUERY_STRING", queryString);
         }
     }
@@ -161,13 +166,12 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         menu.findItem(R.id.menu_search).expandActionView();
 
-        if(bundle != null && bundle.containsKey("QUERY_STRING")){
+        if (bundle != null && bundle.containsKey("QUERY_STRING")) {
             mSearchView.setQuery(bundle.getString("QUERY_STRING"), true);
         }
 
         return super.onCreateOptionsMenu(menu);
     }
-
 
 
     @Override
@@ -199,22 +203,40 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
     @Override
     public boolean onQueryTextChange(final String newText) {
+        if(localSearch) {
 
-        if (newText.equals(queryString)) {
-            return true;
-        }
-        if (mSearchTask != null) {
-            mSearchTask.cancel(false);
-            mSearchTask = null;
-        }
-        queryString = newText;
-        if (queryString.trim().equals("")) {
+            if (mSearchTask != null) {
+                mSearchTask.cancel(false);
+                mSearchTask = null;
+            }
+            queryString = newText;
+            if (queryString.trim().equals("")) {
+                searchResults.clear();
+                adapter.updateSearchResults(searchResults);
+                adapter.notifyDataSetChanged();
+            } else {
+                mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
+            }
+        } else { //Youtube search
             searchResults.clear();
             adapter.updateSearchResults(searchResults);
             adapter.notifyDataSetChanged();
-        } else {
-            mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
-            Log.d("AAAABBBBBB", "TaskCanelled? " + (mSearchTask.isCancelled()));
+
+            queryString = newText;
+            if (queryString.trim().equals("")) {
+                searchResults.clear();
+                adapter.updateSearchResults(searchResults);
+                adapter.notifyDataSetChanged();
+            } else {
+              //TODO search results from Youtube Msuic
+                //Simple test Mock
+                ArrayList<Object> objects = new ArrayList<>();
+                objects.add("Youtube search Result");
+                objects.add("Songs");
+                objects.add("Interperten");
+                adapter.updateSearchResults(objects);
+                adapter.notifyDataSetChanged();
+            }
         }
 
         return true;
@@ -245,7 +267,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         }
     }
 
-    private class SearchTask extends AsyncTask<String,Void,ArrayList<Object>> {
+    private class SearchTask extends AsyncTask<String, Void, ArrayList<Object>> {
 
         @Override
         protected ArrayList<Object> doInBackground(String... params) {
