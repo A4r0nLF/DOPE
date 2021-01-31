@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.naman14.timber.R;
+import com.naman14.timber.activities.ExploreActivity;
 import com.naman14.timber.activities.MainActivity;
 import com.naman14.timber.activities.NowPlayingActivity;
 import com.naman14.timber.activities.PlaylistDetailActivity;
@@ -96,6 +97,11 @@ public class NavigationUtils {
     public static void goToLyrics(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setAction(Constants.NAVIGATE_LYRICS);
+        context.startActivity(intent);
+    }
+
+    public static void goToExplore(Context context) {
+        Intent intent = new Intent(context, ExploreActivity.class);
         context.startActivity(intent);
     }
 

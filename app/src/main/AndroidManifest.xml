@@ -84,6 +84,9 @@
             android:name=".activities.NowPlayingActivity"
             android:theme="@style/Theme.MyApp" />
 
+        <activity
+            android:name=".activities.ExploreActivity"
+            android:theme="@style/Theme.MyApp" />
 
 
         <activity
