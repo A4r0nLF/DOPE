@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
+import com.naman14.timber.dataloaders.LoadPicFromURL;
 import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
@@ -135,9 +136,8 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                 itemHolder.songartist.setText(songOnline.albumName);
 
 
-                new DownloadImageTask((ImageView) itemHolder.albumArt)
+                new LoadPicFromURL((ImageView) itemHolder.albumArt)
                         .execute(songOnline.imgUrl);
-
                 break;
             case 3:
                 break;
@@ -275,30 +275,7 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
 
     }
 
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 }
 
 
