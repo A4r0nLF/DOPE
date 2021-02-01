@@ -73,6 +73,7 @@ dependencies {
 
     implementation 'com.anjlab.android.iab.v3:library:1.0.+'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
 
 }
