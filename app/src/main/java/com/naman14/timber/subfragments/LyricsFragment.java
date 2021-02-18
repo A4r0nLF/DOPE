@@ -19,13 +19,8 @@ import android.widget.TextView;
 import com.naman14.timber.MusicPlayer;
 import com.naman14.timber.R;
 import com.naman14.timber.utils.LyricsExtractor;
-import com.naman14.timber.utils.LyricsLoader;
 
 import java.io.File;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by christoph on 10.12.16.
@@ -72,23 +67,8 @@ public class LyricsFragment extends Fragment {
                     artist = artist.substring(0, i);
                 }
 
-                LyricsLoader.getInstance(this.getContext()).getLyrics(artist, MusicPlayer.getTrackName(), new Callback<String>() {
-                    @Override
-                    public void success(String s, Response response) {
-                        lyrics = s;
-                        if (s.equals("Sorry, We don't have lyrics for this song yet.\n")) {
-                            lyricsTextView.setText(R.string.no_lyrics);
-                        } else {
-                            lyricsTextView.setText(s);
-                            poweredbyTextView.setVisibility(View.VISIBLE);
-                        }
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        lyricsTextView.setText(R.string.no_lyrics);
-                    }
-                });
+
 
             } else {
                 lyricsTextView.setText(R.string.no_lyrics);

@@ -15,9 +15,6 @@
 package com.naman14.timber.adapters;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +34,7 @@ import com.naman14.timber.dataloaders.LoadPicFromURL;
 import com.naman14.timber.dialogs.AddPlaylistDialog;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
-import com.naman14.timber.models.OnlineSongSearchResult;
+import com.naman14.timber.ytmusicapi.OnlineSong;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.TimberUtils;
@@ -45,10 +42,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -131,10 +124,10 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                 itemHolder.sectionHeader.setText((String) searchResults.get(i));
                 break;
             case 11:
-                OnlineSongSearchResult songOnline = (OnlineSongSearchResult) searchResults.get(i);
+                OnlineSong songOnline = (OnlineSong) searchResults.get(i);
                 itemHolder.title.setText(songOnline.title);
-                itemHolder.songartist.setText(songOnline.albumName);
-
+                String subtitle = songOnline.artistName + " - " + songOnline.albumName;
+                itemHolder.songartist.setText(subtitle);
 
                 new LoadPicFromURL((ImageView) itemHolder.albumArt)
                         .execute(songOnline.imgUrl);
@@ -206,7 +199,7 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
             return 1;
         if (searchResults.get(position) instanceof Artist)
             return 2;
-        if (searchResults.get(position) instanceof OnlineSongSearchResult)
+        if (searchResults.get(position) instanceof OnlineSong)
             return 11;
         if (searchResults.get(position) instanceof String)
             return 10;

@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.Menu;
@@ -33,8 +32,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TableLayout;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.naman14.timber.R;
@@ -44,7 +41,7 @@ import com.naman14.timber.dataloaders.ArtistLoader;
 import com.naman14.timber.dataloaders.SongLoader;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
-import com.naman14.timber.models.OnlineSongSearchResult;
+import com.naman14.timber.ytmusicapi.*;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.provider.SearchHistory;
 import com.naman14.timber.utils.PreferencesUtility;
@@ -71,6 +68,9 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     private List<Object> searchResults = Collections.emptyList();
     private TabLayout tabLayout;
     private boolean localSearch;
+
+    private Parser parser;
+    private RequestJSON requestJSON;
 
 
     Bundle bundle;
@@ -103,7 +103,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
 
         localSearch = true;
-        TabLayout tabLayout = findViewById(R.id.search_location);
+        tabLayout = findViewById(R.id.search_location);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -127,6 +127,9 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
             }
         });
+
+        parser = new Parser();
+        requestJSON = new RequestJSON();
 
     }
 
@@ -229,18 +232,27 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 adapter.updateSearchResults(searchResults);
                 adapter.notifyDataSetChanged();
             } else {
-              //TODO search results from Youtube Msuic
+              //TODO search results from Youtube Msuic from package ....ytmusicapi
                 //Simple test Mock
+                new YTMusicAPIMain()
+                        .execute(newText);
+
                 ArrayList<Object> objects = new ArrayList<>();
                 objects.add("Youtube Music search result");
-                objects.add(new OnlineSongSearchResult((long) -1,(long)-1, (long)-1, "KRIMINELL",
-                        "Kianush", "CROSSOVER", -1, -1,
+                objects.add(new OnlineSong("KRIMINELL",
+                        "Kianush", "CROSSOVER", -1,
                         "https://lh3.googleusercontent.com/Sw48WMfik1RtqP_XUvITUdm4F0Rwi-2IosgcNPkvq2xmh5Iq3NKlCo-mKGVM4Fge7P2rng7m33ebUA0_wA=w544-h544-l90-rj",
-                        "https://music.youtube.com/watch?v=oyF1GUjQZUU&list=RDAMVMfXreChsgHz0"));
-                objects.add(new OnlineSongSearchResult((long) -1,(long)-1, (long)-1, "Neptun",
-                        "KC REbell & Raf Camora", "Nepton", -1, -1,
+                        "https://music.youtube.com/watch?v=oyF1GUjQZUU",
+                        "oyF1GUjQZUU",
+                        "RDAMVMfXreChsgHz0"
+                        ));
+                objects.add(new OnlineSong("Neptun",
+                        "KC REbell & Raf Camora", "Nepton", -1,
                         "https://lh3.googleusercontent.com/yeJQtyrTQuHaYCu6uSEFUSXYwGdY7fa55CikKuL3KckVF1B9hhw43BTCmHL85jNpl7F1sSjxMTPxm8Ij=w544-h544-l90-rj",
-                        "https://music.youtube.com/watch?v=7f-y544iyQg&list=RDAMVM7f-y544iyQg"));
+                        "https://music.youtube.com/watch?v=7f-y544iyQg",
+                        "7f-y544iyQg",
+                        "RDAMVM7f-y544iyQg"
+                ));
                 adapter.updateSearchResults(objects);
                 adapter.notifyDataSetChanged();
             }
