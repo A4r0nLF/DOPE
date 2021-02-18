@@ -233,28 +233,10 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 adapter.notifyDataSetChanged();
             } else {
               //TODO search results from Youtube Msuic from package ....ytmusicapi
-                //Simple test Mock
-                new YTMusicAPIMain()
+                ArrayList<Object> objects = new ArrayList<>();
+                new YTMusicAPIMain(objects, adapter, parser, requestJSON)
                         .execute(newText);
 
-                ArrayList<Object> objects = new ArrayList<>();
-                objects.add("Youtube Music search result");
-                objects.add(new OnlineSong("KRIMINELL",
-                        "Kianush", "CROSSOVER", -1,
-                        "https://lh3.googleusercontent.com/Sw48WMfik1RtqP_XUvITUdm4F0Rwi-2IosgcNPkvq2xmh5Iq3NKlCo-mKGVM4Fge7P2rng7m33ebUA0_wA=w544-h544-l90-rj",
-                        "https://music.youtube.com/watch?v=oyF1GUjQZUU",
-                        "oyF1GUjQZUU",
-                        "RDAMVMfXreChsgHz0"
-                        ));
-                objects.add(new OnlineSong("Neptun",
-                        "KC REbell & Raf Camora", "Nepton", -1,
-                        "https://lh3.googleusercontent.com/yeJQtyrTQuHaYCu6uSEFUSXYwGdY7fa55CikKuL3KckVF1B9hhw43BTCmHL85jNpl7F1sSjxMTPxm8Ij=w544-h544-l90-rj",
-                        "https://music.youtube.com/watch?v=7f-y544iyQg",
-                        "7f-y544iyQg",
-                        "RDAMVM7f-y544iyQg"
-                ));
-                adapter.updateSearchResults(objects);
-                adapter.notifyDataSetChanged();
             }
         }
 
