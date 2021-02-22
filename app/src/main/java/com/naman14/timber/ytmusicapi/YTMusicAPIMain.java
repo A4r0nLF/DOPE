@@ -1,7 +1,11 @@
 package com.naman14.timber.ytmusicapi;
 
+import android.database.MatrixCursor;
 import android.os.AsyncTask;
+import android.provider.BaseColumns;
 import android.util.Log;
+
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import com.naman14.timber.adapters.SearchAdapter;
 
@@ -13,21 +17,44 @@ public class YTMusicAPIMain extends AsyncTask<String, Void, ArrayList<Object>> {
     RequestJSON requestJSON;
     ArrayList<Object> objects;
     SearchAdapter adapter;
+    SimpleCursorAdapter sCAdapter;
+    private final int mode;
 
-
-    public YTMusicAPIMain(ArrayList<Object> objects, SearchAdapter adapter, Parser parser, RequestJSON requestJSON) {
+    //mode 0 = get search suggestions; mode 1 = get search Results
+    //mode 2 = get more search Results; mode 3 = get Playlist
+    public YTMusicAPIMain(ArrayList<Object> objects, SearchAdapter adapter, Parser parser, RequestJSON requestJSON, SimpleCursorAdapter sCAdapter, int mode) {
         this.parser = parser;
         this.requestJSON = requestJSON;
         this.objects = objects;
         this.adapter = adapter;
-
+        this.mode = mode;
+        this.sCAdapter = sCAdapter;
     }
 
     protected ArrayList<Object> doInBackground(String... searchQuery) {
         //Log.e("Res", "\n " + parser.parseSearchResults(requestJSON.getSearchResult("samra")));
 
         objects.add("Youtube Music Songs");
-        objects.addAll(parser.parseSearchResults(requestJSON.getSearchResult(searchQuery[0])));
+
+
+
+        switch (mode){
+            case 0:
+                objects.clear();
+                objects.addAll(parser.parseSearchSuggestions(requestJSON.getSearchSuggestions(searchQuery[0])));
+                break;
+            case 1:
+                objects.addAll(parser.parseSearchResults(requestJSON.getSearchResult(searchQuery[0])));
+                break;
+            case 2:
+                objects.addAll(parser.parseSearchResults(requestJSON.getMoreSearchResult(searchQuery[0],searchQuery[1])));
+                break;
+            case 3:
+                objects.addAll(parser.parseSearchResults(requestJSON.getPlaylist(searchQuery[0], searchQuery[1])));
+                break;
+            default:
+                Log.e("Error:"," unsupported mode number!");
+        }
 
         //TestData
         //objects.add(new OnlineSong("KRIMINELL",
@@ -49,7 +76,35 @@ public class YTMusicAPIMain extends AsyncTask<String, Void, ArrayList<Object>> {
 
     @Override
     protected void onPostExecute(ArrayList<Object> objects) {
-        adapter.updateSearchResults(objects);
-        adapter.notifyDataSetChanged();
+        switch (mode){
+            case 0:
+                populateAdapter( objects);
+                break;
+            case 1:
+                adapter.updateSearchResults(objects);
+                adapter.notifyDataSetChanged();
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            default:
+                Log.e("Error:"," unsupported mode number!");
+        }
+
+
     }
+
+    private void populateAdapter(ArrayList<Object> objects) {
+
+
+        final MatrixCursor c = new MatrixCursor(new String[]{BaseColumns._ID, "searchSuggestions"});
+        for (int i = 0; i < objects.size(); i++) {
+            c.addRow(new Object[]{i, objects.get(i)});
+        }
+        sCAdapter.changeCursor(c);
+    }
+
 }
