@@ -15,17 +15,22 @@
 package com.naman14.timber.activities;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.MenuItemCompat;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +66,14 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     private SearchView mSearchView;
     private InputMethodManager mImm;
     private String queryString;
+    private static final String[] SUGGESTIONS = {
+            "Bauru", "Sao Paulo", "Rio de Janeiro",
+            "Bahia", "Mato Grosso", "Minas Gerais",
+            "Tocantins", "Rio Grande do Sul"
+    };
+    private SimpleCursorAdapter mAdapter;
+
+
 
     private SearchAdapter adapter;
     private RecyclerView recyclerView;
@@ -86,6 +99,15 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        final String[] from = new String[] {"cityName"};
+        final int[] to = new int[] {android.R.id.text1};
+        mAdapter = new SimpleCursorAdapter(this,
+                android.R.layout.simple_list_item_2,
+                null,
+                from,
+                to,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -143,7 +165,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
@@ -154,6 +176,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setIconified(false);
+
 
         MenuItemCompat.setOnActionExpandListener(menu.findItem(R.id.menu_search), new MenuItemCompat.OnActionExpandListener() {
             @Override
@@ -182,6 +205,25 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_search);
         item.setVisible(false);
+
+        mSearchView.setSuggestionsAdapter(mAdapter);
+
+        // Getting selected (clicked) item suggestion
+        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionClick(int position) {
+                Cursor cursor = (Cursor) mAdapter.getItem(position);
+                String txt = cursor.getString(cursor.getColumnIndex("cityName"));
+                mSearchView.setQuery(txt, true);
+                return true;
+            }
+
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                // Your code here
+                return true;
+            }
+        });
         return true;
     }
 
@@ -221,7 +263,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
             } else {
                 mSearchTask = new SearchTask().executeOnExecutor(mSearchExecutor, queryString);
             }
-        } else { //Youtube search
+        } else { //Youtube Music search
             searchResults.clear();
             adapter.updateSearchResults(searchResults);
             adapter.notifyDataSetChanged();
@@ -232,16 +274,26 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 adapter.updateSearchResults(searchResults);
                 adapter.notifyDataSetChanged();
             } else {
-              //TODO search results from Youtube Msuic from package ....ytmusicapi
-                ArrayList<Object> objects = new ArrayList<>();
-                new YTMusicAPIMain(objects, adapter, parser, requestJSON)
-                        .execute(newText);
-
+              //TODO search results from Youtube Music from package ....ytmusicapi
+               // ArrayList<Object> objects = new ArrayList<>();
+               // new YTMusicAPIMain(objects, adapter, parser, requestJSON)
+               //         .execute(newText);
+                populateAdapter(queryString);
             }
         }
 
         return true;
     }
+
+    private void populateAdapter(String query) {
+        final MatrixCursor c = new MatrixCursor(new String[]{ BaseColumns._ID, "cityName" });
+        for (int i=0; i<SUGGESTIONS.length; i++) {
+            if (SUGGESTIONS[i].toLowerCase().startsWith(query.toLowerCase()))
+                c.addRow(new Object[] {i, SUGGESTIONS[i]});
+        }
+        mAdapter.changeCursor(c);
+    }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
