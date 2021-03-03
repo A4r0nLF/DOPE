@@ -69,6 +69,9 @@ public class Constants {
 
     public static final int CAST_SERVER_PORT = 8080;
 
+    public static final String SongURL = "SongURL";
+    public static final String OnlinePlaylistID = "OnlinePlaylistID";
+
 
 
 }

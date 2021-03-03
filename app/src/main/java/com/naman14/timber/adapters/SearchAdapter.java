@@ -259,8 +259,8 @@ public class SearchAdapter extends BaseSongAdapter<SearchAdapter.ItemHolder> {
                     break;
                 case 11:
                     //TODO intent to open song online for testing...
-                    NavigationUtils.goToExplore(mContext);
-                    Log.e("New", "Intent");
+                    NavigationUtils.goToExplore(mContext, ((OnlineSong) searchResults.get(getAdapterPosition())));
+                    Log.e("New", "Intent lol");
                     break;
                 case 10:
                     break;

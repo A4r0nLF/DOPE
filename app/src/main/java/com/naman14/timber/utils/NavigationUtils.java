@@ -43,6 +43,7 @@ import com.naman14.timber.nowplaying.Timber3;
 import com.naman14.timber.nowplaying.Timber4;
 import com.naman14.timber.nowplaying.Timber5;
 import com.naman14.timber.nowplaying.Timber6;
+import com.naman14.timber.ytmusicapi.OnlineSong;
 
 import java.util.ArrayList;
 
@@ -100,8 +101,10 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
-    public static void goToExplore(Context context) {
+    public static void goToExplore(Context context, OnlineSong onlineSong) {
         Intent intent = new Intent(context, ExploreActivity.class);
+        intent.putExtra(Constants.SongURL, onlineSong.songUrl);
+        intent.putExtra(Constants.OnlinePlaylistID, onlineSong.ytMusicPlyListID);
         context.startActivity(intent);
     }
 

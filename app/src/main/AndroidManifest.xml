@@ -20,7 +20,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="DOPE"
         android:theme="@style/Theme.MyApp"
-        tools:replace="android:allowBackup, android:label">
+        tools:replace="android:allowBackup, android:label"
+        android:extractNativeLibs="true"
+        >
 
         <activity
             android:name=".activities.MainActivity"
