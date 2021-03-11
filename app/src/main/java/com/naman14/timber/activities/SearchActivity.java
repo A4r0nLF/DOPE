@@ -69,7 +69,6 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
 
     private SearchAdapter adapter;
-    private RecyclerView recyclerView;
 
     private List<Object> searchResults = Collections.emptyList();
     private TabLayout tabLayout;
@@ -109,7 +108,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchAdapter(this);
         recyclerView.setAdapter(adapter);

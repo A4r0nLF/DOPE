@@ -4,9 +4,12 @@ import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.widget.Adapter;
 
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
+import com.naman14.timber.adapters.BaseSongAdapter;
+import com.naman14.timber.adapters.ExploreAdapter;
 import com.naman14.timber.adapters.SearchAdapter;
 
 import java.util.ArrayList;
@@ -16,9 +19,10 @@ public class YTMusicAPIMain extends AsyncTask<String, Void, ArrayList<Object>> {
     Parser parser;
     RequestJSON requestJSON;
     ArrayList<Object> objects;
-    SearchAdapter adapter;
+    BaseSongAdapter adapter;
     SimpleCursorAdapter sCAdapter;
     private final int mode;
+
 
     //mode 0 = get search suggestions; mode 1 = get search Results
     //mode 2 = get more search Results; mode 3 = get Playlist
@@ -29,6 +33,15 @@ public class YTMusicAPIMain extends AsyncTask<String, Void, ArrayList<Object>> {
         this.adapter = adapter;
         this.mode = mode;
         this.sCAdapter = sCAdapter;
+    }
+
+    public YTMusicAPIMain(ArrayList<Object> objects, ExploreAdapter adapter, Parser parser, RequestJSON requestJSON, int mode) {
+        this.parser = parser;
+        this.requestJSON = requestJSON;
+        this.objects = objects;
+        this.adapter = adapter;
+        this.mode = mode;
+        this.sCAdapter = null;
     }
 
     protected ArrayList<Object> doInBackground(String... searchQuery) {
@@ -50,7 +63,7 @@ public class YTMusicAPIMain extends AsyncTask<String, Void, ArrayList<Object>> {
                 objects.addAll(parser.parseSearchResults(requestJSON.getMoreSearchResult(searchQuery[0],searchQuery[1])));
                 break;
             case 3:
-                objects.addAll(parser.parseSearchResults(requestJSON.getPlaylist(searchQuery[0], searchQuery[1])));
+                objects.addAll(parser.parsePlaylist(requestJSON.getPlaylist(searchQuery[0], searchQuery[1])));
                 break;
             default:
                 Log.e("Error:"," unsupported mode number!");
@@ -81,14 +94,17 @@ public class YTMusicAPIMain extends AsyncTask<String, Void, ArrayList<Object>> {
                 populateAdapter( objects);
                 break;
             case 1:
-                adapter.updateSearchResults(objects);
-                adapter.notifyDataSetChanged();
+                SearchAdapter searchAdapter = (SearchAdapter)adapter;
+                searchAdapter.updateSearchResults(objects);
+                searchAdapter.notifyDataSetChanged();
                 break;
             case 2:
 
                 break;
             case 3:
-
+                ExploreAdapter exploreAdapter = (ExploreAdapter) adapter;
+                exploreAdapter.updatePlaylist(objects);
+                exploreAdapter.notifyDataSetChanged();
                 break;
             default:
                 Log.e("Error:"," unsupported mode number!");
