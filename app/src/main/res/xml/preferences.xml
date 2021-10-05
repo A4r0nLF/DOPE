@@ -19,26 +19,35 @@
             />
     </PreferenceCategory>
 
-    <ListPreference
-        android:entries="@array/pref_startpage_entries"
-        android:entryValues="@array/pref_startpage_values"
-        android:key="listpref"
-        android:summary="List preference example"
-        android:title="List preference" />
-<!--
-    <PreferenceCategory
-        android:summary="Username and password information"
-        android:title="Login information" >
-        <EditTextPreference
-            android:key="username"
-            android:summary="Please enter your login username"
-            android:title="Username" />
-        <EditTextPreference
-            android:key="password"
-            android:summary="Enter your password"
-            android:title="Password" />
+    <PreferenceCategory android:title="@string/check_for_updates">
+
+        <Preference
+            android:key="check_update_selector"
+            android:summary="@string/check_for_updates_summary"
+            android:title="@string/check_for_updates" />
+
     </PreferenceCategory>
--->
+    <!--
+        <ListPreference
+            android:entries="@array/pref_startpage_entries"
+            android:entryValues="@array/pref_startpage_values"
+            android:key="listpref"
+            android:summary="List preference example"
+            android:title="List preference" />
+
+        <PreferenceCategory
+            android:summary="Username and password information"
+            android:title="Login information" >
+            <EditTextPreference
+                android:key="username"
+                android:summary="Please enter your login username"
+                android:title="Username" />
+            <EditTextPreference
+                android:key="password"
+                android:summary="Enter your password"
+                android:title="Password" />
+        </PreferenceCategory>
+    -->
 
 
 

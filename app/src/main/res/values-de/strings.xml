@@ -76,7 +76,7 @@
     <string name="now_playing_selector">Wählen Sie einen "Now-Playing"-Screen aus 4 verschiedenen Stilen.</string>
     <string name="personalisation">Personifizierung</string>
     <string name="other">Anderes</string>
-    <string name="timber_about_opensource">Timber ist ein offener Musik-Player entwickelt von Naman Dwivedi.</string>
+    <string name="timber_about_opensource">DOPE ist ein offener Musik-Player entwickelt von Aaron Fritschi.</string>
     <string name="summary_pause_detach">Wiedergabe pausieren wenn Kopfhörer entfernt werden.</string>
     <string name="pause_detach">Pause beim entfernen</string>
     <string name="albumart_lockscreen">Sperrbildschirm</string>
@@ -86,6 +86,8 @@
     <string name="load_artist_album_image_mobile">Mobiledaten</string>
     <string name="load_artist_album_image_mobile_summary">Interpretenbilder auch ohne Wifi laden.</string>
 
+    <string name="check_for_updates">Updates</string>
+    <string name="check_for_updates_summary">Überprüfe ob eine neuere Version von DOPE verfügbar ist.</string>
 
     <string name="count_song"><xliff:g id="count">%d</xliff:g> Song</string>
     <string name="count_songs"><xliff:g id="count">%d</xliff:g> Songs</string>

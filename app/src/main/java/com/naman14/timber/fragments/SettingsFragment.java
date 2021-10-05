@@ -21,35 +21,28 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.naman14.timber.R;
 import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.NavigationUtils;
-import com.naman14.timber.utils.PreferencesUtility;
+import com.naman14.timber.utils.UpdateYoutubeDL;
+import com.yausername.youtubedl_android.YoutubeDLException;
+
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String NOW_PLAYING_SELECTOR = "now_playing_selector";
-    private static final String LASTFM_LOGIN = "lastfm_login";
+    private static final String CHECK_UPDATE = "check_update_selector";
 
-    private static final String LOCKSCREEN = "show_albumart_lockscreen";
-    private static final String XPOSED = "toggle_xposed_trackselector";
 
-    private static final String KEY_ABOUT = "preference_about";
-    private static final String KEY_SOURCE = "preference_source";
-    private static final String KEY_THEME = "theme_preference";
-    private static final String TOGGLE_ANIMATIONS = "toggle_animations";
-    private static final String TOGGLE_SYSTEM_ANIMATIONS = "toggle_system_animations";
-    private static final String KEY_START_PAGE = "start_page_preference";
-    private boolean lastFMlogedin;
 
-    private Preference nowPlayingSelector,  lastFMlogin, lockscreen, xposed;
 
-    private SwitchPreference toggleAnimations;
-    private ListPreference themePreference, startPagePreference;
-    private PreferencesUtility mPreferences;
-    private String mAteKey;
+    private Preference nowPlayingSelector;
+    private Preference checkForUpdates;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,17 +50,23 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         addPreferencesFromResource(R.xml.preferences);
 
-        mPreferences = PreferencesUtility.getInstance(getActivity());
 
-        lockscreen = findPreference(LOCKSCREEN);
         nowPlayingSelector = findPreference(NOW_PLAYING_SELECTOR);
+        checkForUpdates = findPreference(CHECK_UPDATE);
 
-        xposed = findPreference(XPOSED);
 
 
-//        themePreference = (ListPreference) findPreference(KEY_THEME);
-        startPagePreference = (ListPreference) findPreference(KEY_START_PAGE);
-
+        checkForUpdates.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    UpdateYoutubeDL updateYoutubeDL = new UpdateYoutubeDL(getContext());
+                } catch (YoutubeDLException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        });
         nowPlayingSelector.setIntent(NavigationUtils.getNavigateToStyleSelectorIntent(getActivity(), Constants.SETTINGS_STYLE_SELECTOR_NOWPLAYING));
 
 

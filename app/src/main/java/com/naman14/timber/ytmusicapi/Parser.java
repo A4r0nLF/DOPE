@@ -1,5 +1,7 @@
 package com.naman14.timber.ytmusicapi;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -55,8 +57,10 @@ public class Parser {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
         JsonElement jsonElement = jsonObject.get("contents")
-                .getAsJsonObject().get("sectionListRenderer")
-                .getAsJsonObject().get("contents");
+                .getAsJsonObject().get("tabbedSearchResultsRenderer")
+                .getAsJsonObject().get("tabs").getAsJsonArray().get(0)
+                .getAsJsonObject().get("tabRenderer").getAsJsonObject().get("content")
+                .getAsJsonObject().get("sectionListRenderer").getAsJsonObject().get("contents");
         JsonArray jsonArray = jsonElement.getAsJsonArray();
         for (int i = 0; i < jsonArray.size(); i++) {
             try {
@@ -74,7 +78,7 @@ public class Parser {
                             .get("musicResponsiveListItemFlexColumnRenderer").getAsJsonObject().get("text")
                             .getAsJsonObject().get("runs").getAsJsonArray().get(0).getAsJsonObject().get("text").toString();
                     if (songResType.equals("\"Titel\""))
-                      searchResults.addAll(creatSongList(parseSongMeta((JsonObject) jsonArray.getAsJsonArray().get(i))));
+                        searchResults.addAll(creatSongList(parseSongMeta((JsonObject) jsonArray.getAsJsonArray().get(i))));
                 } else if (jsnElemnt.getAsString().equals("Songs")) {
                     searchResults.addAll(creatSongList(parseSongMeta((JsonObject) jsonArray.getAsJsonArray().get(i))));
                     parseMoreResParams(jsonArray.getAsJsonArray().get(i));

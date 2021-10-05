@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">Timber</string>
+    <string name="app_name">DOPE</string>
     <string name="action_settings">Settings</string>
 
     <string name="accessibility_play">Play</string>
@@ -129,6 +129,8 @@
     <string name="number_song_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> song added to playlist.</string>
     <string name="number_songs_add_playlist"><xliff:g example="1" id="number">%d</xliff:g> songs added to playlist.</string>
 
+    <string name="check_for_updates">Updates</string>
+    <string name="check_for_updates_summary">Check if a new version of DOPE is available.</string>
 
     <!--do not translate these strings-->
     <string name="combine_two_strings" translatable="false">%1$s | %2$s</string>

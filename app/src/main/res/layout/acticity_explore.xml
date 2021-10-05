@@ -8,13 +8,13 @@
     <androidx.percentlayout.widget.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_heightPercent="45%"
+        app:layout_heightPercent="52%"
         android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/headerView"
             android:layout_width="match_parent"
-            app:layout_heightPercent="45%"
+            app:layout_heightPercent="52%"
             android:layout_height="300dp">
 
             <com.devbrackets.android.exomedia.ui.widget.VideoView
@@ -27,15 +27,13 @@
         </RelativeLayout>
 
 
-
         <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/stream_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/headerView"
             android:clipToPadding="false"
-            android:paddingTop="18dp"
-            />
+            android:paddingTop="18dp" />
 
     </androidx.percentlayout.widget.PercentRelativeLayout>
 

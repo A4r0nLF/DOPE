@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.devbrackets.android.exomedia.BuildConfig;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoControlsMobile;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ExploreAdapter;
 import com.naman14.timber.utils.Constants;
@@ -18,10 +19,12 @@ import com.naman14.timber.utils.PreferencesUtility;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
+import com.naman14.timber.utils.StartVideoStream;
 import com.naman14.timber.ytmusicapi.OnlineSong;
 import com.naman14.timber.ytmusicapi.Parser;
 import com.naman14.timber.ytmusicapi.RequestJSON;
@@ -51,6 +54,8 @@ public class ExploreActivity extends BaseThemedActivity {
     private ExploreAdapter adapter;
     private RecyclerView recyclerView;
 
+    private FloatingActionButton downloadButton;
+
     private List<Object> searchResults = Collections.emptyList();
 
     private Parser parser;
@@ -59,6 +64,7 @@ public class ExploreActivity extends BaseThemedActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acticity_explore);
         if (PreferencesUtility.getInstance(this).getTheme().equals("dark"))
@@ -97,9 +103,11 @@ public class ExploreActivity extends BaseThemedActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.stream_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExploreAdapter(this);
+        adapter = new ExploreAdapter(this, videoView);
         recyclerView.setAdapter(adapter);
 
+
+        downloadButton = findViewById(R.id.download);
     }
 
     private void initListeners() {
@@ -109,43 +117,55 @@ public class ExploreActivity extends BaseThemedActivity {
                 videoView.start();
             }
         });
+
+        downloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ExploreActivity.this, "download started", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 
+    private void startStream(){
 
-        private void startStream(){
+        StartVideoStream startVideoStream = new StartVideoStream(songURL, videoView, this);
 
-
-
-            Disposable disposable = Observable.fromCallable(() -> {
-                YoutubeDLRequest request = new YoutubeDLRequest(songURL);
-                Log.e("REquest ", ""+ request);
-                // best stream containing video+audio
-                request.addOption("-f", "best");
-                return YoutubeDL.getInstance().getInfo(request);
-            })
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(streamInfo -> {
-
-
-                        String videoUrl = streamInfo.getUrl();
-                        if (TextUtils.isEmpty(videoUrl)) {
-                            Toast.makeText(ExploreActivity.this, "failed to get stream url", Toast.LENGTH_LONG).show();
-                        } else {
-                            setupVideoView(videoUrl);
-                        }
-                    }, e -> {
-                        if (BuildConfig.DEBUG) Log.e("Error: ", "failed to get stream info", e);
-
-                        Toast.makeText(ExploreActivity.this, "streaming failed. failed to get stream info", Toast.LENGTH_LONG).show();
-                    });
-            compositeDisposable.add(disposable);
-        }
-
+        //Disposable disposable = Observable.fromCallable(() -> {
+        //    YoutubeDLRequest request = new YoutubeDLRequest(songURL);
+        //    Log.e("REquest ", ""+ request);
+        //    // best stream containing video+audio
+        //    request.addOption("-f", "best");
+        //    return YoutubeDL.getInstance().getInfo(request);
+        //})
+        //        .subscribeOn(Schedulers.newThread())
+        //        .observeOn(AndroidSchedulers.mainThread())
+        //        .subscribe(streamInfo -> {
+//
+//
+        //            String videoUrl = streamInfo.getUrl();
+        //            if (TextUtils.isEmpty(videoUrl)) {
+        //                Toast.makeText(ExploreActivity.this, "failed to get stream url", Toast.LENGTH_LONG).show();
+        //            } else {
+        //                setupVideoView(videoUrl);
+        //            }
+        //        }, e -> {
+        //            if (BuildConfig.DEBUG) Log.e("Error: ", "failed to get stream info", e);
+//
+        //            Toast.makeText(ExploreActivity.this, "streaming failed. failed to get stream info", Toast.LENGTH_LONG).show();
+        //        });
+        //compositeDisposable.add(disposable);
+    }
 
         private void setupVideoView(String videoUrl) {
-            videoView.setVideoURI(Uri.parse(videoUrl));
+         //   videoView.setVideoURI(Uri.parse(videoUrl));
         }
 
+    public String getSongURL() {
+        return songURL;
+    }
+
+    public CompositeDisposable getCompositeDisposable() {
+        return compositeDisposable;
+    }
 }

@@ -38,21 +38,26 @@ import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.models.Song;
 import com.naman14.timber.utils.NavigationUtils;
+import com.naman14.timber.utils.StartVideoStream;
 import com.naman14.timber.utils.TimberUtils;
 import com.naman14.timber.ytmusicapi.OnlineSong;
 
+import com.devbrackets.android.exomedia.ui.widget.VideoView;
 
+
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
 public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
 
     private Activity mContext;
-    private List searchResults = Collections.emptyList();
+    private List relatedPlaylist = Collections.emptyList();
+    private VideoView videoView;
 
-    public ExploreAdapter(Activity context) {
+    public ExploreAdapter(Activity context, VideoView videoView) {
         this.mContext = context;
-
+        this.videoView = videoView;
     }
 
     @Override
@@ -67,9 +72,7 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
                 ExploreAdapter.ItemHolder ml11 = new ExploreAdapter.ItemHolder(v11);
                 return ml11;
             default:
-                View v3 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song, null);
-                ExploreAdapter.ItemHolder ml3 = new ExploreAdapter.ItemHolder(v3);
-                return ml3;
+                return null;
         }
     }
 
@@ -78,10 +81,10 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
         switch (getItemViewType(i)) {
 
             case 10:
-                itemHolder.sectionHeader.setText((String) searchResults.get(i));
+                itemHolder.sectionHeader.setText((String) relatedPlaylist.get(i));
                 break;
             case 11:
-                OnlineSong songOnline = (OnlineSong) searchResults.get(i);
+                OnlineSong songOnline = (OnlineSong) relatedPlaylist.get(i);
                 itemHolder.title.setText(songOnline.title);
                 String subtitle = songOnline.artistName + " - " + songOnline.albumName;
                 itemHolder.songartist.setText(subtitle);
@@ -101,22 +104,22 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
 
     @Override
     public int getItemCount() {
-        return searchResults.size();
+        return relatedPlaylist.size();
     }
 
 
 
     @Override
     public int getItemViewType(int position) {
-        if (searchResults.get(position) instanceof OnlineSong)
+        if (relatedPlaylist.get(position) instanceof OnlineSong)
             return 11;
-        if (searchResults.get(position) instanceof String)
+        if (relatedPlaylist.get(position) instanceof String)
             return 10;
         return 3;
     }
 
     public void updatePlaylist(List searchResults) {
-        this.searchResults = searchResults;
+        this.relatedPlaylist = searchResults;
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -151,25 +154,18 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
                         @Override
                         public void run() {
                             long[] ret = new long[1];
-                            ret[0] = ((Song) searchResults.get(getAdapterPosition())).id;
+                            ret[0] = ((Song) relatedPlaylist.get(getAdapterPosition())).id;
                             playAll(mContext, ret, 0, -1, TimberUtils.IdType.NA,
-                                    false, (Song) searchResults.get(getAdapterPosition()), false);
+                                    false, (Song) relatedPlaylist.get(getAdapterPosition()), false);
                         }
                     }, 100);
 
                     break;
-                case 1:
-                    NavigationUtils.goToAlbum(mContext, ((Album) searchResults.get(getAdapterPosition())).id);
-                    break;
-                case 2:
-                    NavigationUtils.goToArtist(mContext, ((Artist) searchResults.get(getAdapterPosition())).id);
-                    break;
-                case 3:
-                    break;
                 case 11:
-                    //TODO intent to open song online for testing...
-                    //NavigationUtils.goToExplore(mContext, ((OnlineSong) searchResults.get(getAdapterPosition())));
-                    Log.e("New", "Intent lol");
+                    //TODO set new song from playlist
+                   // videoView.setVideoURI(();
+                    OnlineSong clickedSong = ((OnlineSong) relatedPlaylist.get(getAdapterPosition()));
+                    StartVideoStream startVideoStream = new StartVideoStream(clickedSong.songUrl, videoView, mContext.getApplicationContext());
                     break;
                 case 10:
                     break;
