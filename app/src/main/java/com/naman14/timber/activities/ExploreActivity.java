@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ExploreAdapter;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.DownloadSong;
 import com.naman14.timber.utils.PreferencesUtility;
 
 import android.net.Uri;
@@ -29,6 +30,7 @@ import com.naman14.timber.ytmusicapi.OnlineSong;
 import com.naman14.timber.ytmusicapi.Parser;
 import com.naman14.timber.ytmusicapi.RequestJSON;
 import com.naman14.timber.ytmusicapi.YTMusicAPIMain;
+import com.yausername.ffmpeg.FFmpeg;
 import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
@@ -76,6 +78,7 @@ public class ExploreActivity extends BaseThemedActivity {
 
         try {
             YoutubeDL.getInstance().init(getApplication());
+            FFmpeg.getInstance().init(getApplication());
         } catch (YoutubeDLException e) {
             Log.e("Error: ", "failed to initialize youtubedl-android", e);
         }
@@ -122,6 +125,7 @@ public class ExploreActivity extends BaseThemedActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ExploreActivity.this, "download started", Toast.LENGTH_LONG).show();
+                DownloadSong downloadSong = new DownloadSong(songURL, getApplication());
             }
         });
     }
@@ -131,30 +135,6 @@ public class ExploreActivity extends BaseThemedActivity {
 
         StartVideoStream startVideoStream = new StartVideoStream(songURL, videoView, this);
 
-        //Disposable disposable = Observable.fromCallable(() -> {
-        //    YoutubeDLRequest request = new YoutubeDLRequest(songURL);
-        //    Log.e("REquest ", ""+ request);
-        //    // best stream containing video+audio
-        //    request.addOption("-f", "best");
-        //    return YoutubeDL.getInstance().getInfo(request);
-        //})
-        //        .subscribeOn(Schedulers.newThread())
-        //        .observeOn(AndroidSchedulers.mainThread())
-        //        .subscribe(streamInfo -> {
-//
-//
-        //            String videoUrl = streamInfo.getUrl();
-        //            if (TextUtils.isEmpty(videoUrl)) {
-        //                Toast.makeText(ExploreActivity.this, "failed to get stream url", Toast.LENGTH_LONG).show();
-        //            } else {
-        //                setupVideoView(videoUrl);
-        //            }
-        //        }, e -> {
-        //            if (BuildConfig.DEBUG) Log.e("Error: ", "failed to get stream info", e);
-//
-        //            Toast.makeText(ExploreActivity.this, "streaming failed. failed to get stream info", Toast.LENGTH_LONG).show();
-        //        });
-        //compositeDisposable.add(disposable);
     }
 
         private void setupVideoView(String videoUrl) {
