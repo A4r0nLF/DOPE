@@ -6,23 +6,21 @@ Material Design Music Player
 ## Features
 - Material design
 - Browse Songs, Albums, Artist
-- Search for Songs in Youtube and Download / Extract the audio
-directly in your phone music storage
+- Search for Songs in Youtube Music
+- Download and Extract the audio in local phone storage
+- Offline usage
 - Create and edit playlists
 - 6 different now playing styles
 - Homescreen widgets
 - Browse device folders
-- Dark theme and UI customisability
+- Dark and light theme
 - Gestures for track switching
-- LastFM scrobble
-- Android Wear and Android Auto support
-- Playing queue in notification (Xposed)
-- Lyrics support
+- Playing queue in notification 
 - Chromecast support
 
-## Changelog
+## Credits
+This player is based on the following github project: "naman14/Timber" and "yausername / youtubedl-android".
 
-Changelog is available [here](https://github.com/naman14/Timber/blob/master/Changelog.md)
 
 
 
