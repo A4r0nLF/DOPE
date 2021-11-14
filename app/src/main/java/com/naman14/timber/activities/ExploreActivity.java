@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.devbrackets.android.exomedia.BuildConfig;
+
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoControlsMobile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,33 +17,31 @@ import com.naman14.timber.utils.Constants;
 import com.naman14.timber.utils.DownloadSong;
 import com.naman14.timber.utils.PreferencesUtility;
 
-import android.net.Uri;
-import android.text.TextUtils;
+
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.naman14.timber.utils.StartVideoStream;
-import com.naman14.timber.ytmusicapi.OnlineSong;
+
 import com.naman14.timber.ytmusicapi.Parser;
 import com.naman14.timber.ytmusicapi.RequestJSON;
 import com.naman14.timber.ytmusicapi.YTMusicAPIMain;
 import com.yausername.ffmpeg.FFmpeg;
 import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
-import com.yausername.youtubedl_android.YoutubeDLRequest;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+
+
 
 
 
@@ -57,6 +55,7 @@ public class ExploreActivity extends BaseThemedActivity {
     private RecyclerView recyclerView;
 
     private FloatingActionButton downloadButton;
+    private ProgressBar progressBar;
 
     private List<Object> searchResults = Collections.emptyList();
 
@@ -111,6 +110,7 @@ public class ExploreActivity extends BaseThemedActivity {
 
 
         downloadButton = findViewById(R.id.download);
+        progressBar = findViewById(R.id.download_progress_bar);
     }
 
     private void initListeners() {
@@ -121,11 +121,11 @@ public class ExploreActivity extends BaseThemedActivity {
             }
         });
 
-        downloadButton.setOnClickListener(new View.OnClickListener() {
+        progressBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ExploreActivity.this, "download started", Toast.LENGTH_LONG).show();
-                DownloadSong downloadSong = new DownloadSong(songURL, getApplication());
+                DownloadSong downloadSong = new DownloadSong(songURL, getApplication(), progressBar);
             }
         });
     }

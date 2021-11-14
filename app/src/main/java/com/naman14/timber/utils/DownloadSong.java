@@ -45,8 +45,13 @@ public class DownloadSong {
 
     private Context context;
     private boolean downloading = false;
+    private int progress;
+    private ProgressBar progressBar;
 
-    public DownloadSong(String songURL, Context context) {
+
+    public DownloadSong(String songURL, Context context, ProgressBar progressBar) {
+        progress = 0;
+        this.progressBar = progressBar;
         this.songURL = songURL;
         this.context = context;
         try {
@@ -98,21 +103,10 @@ public class DownloadSong {
 
 
 
-
-    private File getDownloadLocation() {
-        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File youtubeDLDir = new File(downloadsDir, "youtubedl-android");
-        if (!youtubeDLDir.exists()) youtubeDLDir.mkdir();
-        return youtubeDLDir;
-    }
-
-
     private final DownloadProgressCallback callback = new DownloadProgressCallback() {
         @Override
         public void onProgressUpdate(float progress, long etaInSeconds) {
-
-                        Log.i("Download Progress", String.valueOf(progress) + "% (ETA " + String.valueOf(etaInSeconds) + " seconds)");
-
+                      progressBar.setProgress((int)progress);
         }
     };
 
