@@ -63,23 +63,27 @@ public class Parser {
                 .getAsJsonObject().get("sectionListRenderer").getAsJsonObject().get("contents");
         JsonArray jsonArray = jsonElement.getAsJsonArray();
         for (int i = 0; i < jsonArray.size(); i++) {
+
             try {
                 JsonElement jsnElemnt = jsonArray.get(i).getAsJsonObject()
                         .getAsJsonObject().get("musicShelfRenderer")
                         .getAsJsonObject().get("title").getAsJsonObject().get("runs")
                         .getAsJsonArray().get(0).getAsJsonObject().get("text");
-
                 //Only songs not videos are wanted
                 if (jsnElemnt.getAsString().equals("Top-Ergebnis")) {
+
                     String songResType = jsonArray.getAsJsonArray().get(i)
                             .getAsJsonObject().get("musicShelfRenderer").getAsJsonObject().get("contents")
                             .getAsJsonArray().get(0).getAsJsonObject().get("musicResponsiveListItemRenderer")
                             .getAsJsonObject().get("flexColumns").getAsJsonArray().get(1).getAsJsonObject()
                             .get("musicResponsiveListItemFlexColumnRenderer").getAsJsonObject().get("text")
                             .getAsJsonObject().get("runs").getAsJsonArray().get(0).getAsJsonObject().get("text").toString();
-                    if (songResType.equals("\"Titel\""))
+
+                    if (songResType.equals("\"Titel\"")) {
                         searchResults.addAll(creatSongList(parseSongMeta((JsonObject) jsonArray.getAsJsonArray().get(i))));
-                } else if (jsnElemnt.getAsString().equals("Songs")) {
+                    }
+                } else if (jsnElemnt.getAsString().equals("Titel")) {
+
                     searchResults.addAll(creatSongList(parseSongMeta((JsonObject) jsonArray.getAsJsonArray().get(i))));
                     parseMoreResParams(jsonArray.getAsJsonArray().get(i));
                 }
@@ -128,10 +132,13 @@ public class Parser {
 
     //return String[6] = [0]: Img Url, [1]: title, [2] acts, [3]: album, [4]: videoID, [5]:playlistID
     private String[][] parseSongMeta(JsonObject jsonObject) {
+        Log.e("Song:  ", jsonObject.toString());
         String[][] songMeta = null;
         JsonArray tempJson0 = jsonObject.get("musicShelfRenderer")
                 .getAsJsonObject().get("contents").getAsJsonArray();
         songMeta = new String[tempJson0.size()][6];
+
+
 
         for (int i = 0; i < tempJson0.size(); i++) {
             JsonArray tempJson1 = tempJson0.get(i)

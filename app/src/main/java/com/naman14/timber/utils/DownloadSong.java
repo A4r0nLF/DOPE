@@ -25,6 +25,7 @@ import com.yausername.youtubedl_android.YoutubeDL;
 import com.yausername.youtubedl_android.YoutubeDLException;
 import com.yausername.youtubedl_android.YoutubeDLRequest;
 
+
 import java.io.File;
 
 import io.reactivex.Observable;
@@ -46,12 +47,12 @@ public class DownloadSong {
     private Context context;
     private boolean downloading = false;
     private int progress;
-    private ProgressBar progressBar;
+    private DownloadButtonAnimation downloadButtonAnimation;
 
 
-    public DownloadSong(String songURL, Context context, ProgressBar progressBar) {
-        progress = 0;
-        this.progressBar = progressBar;
+    public DownloadSong(String songURL, Context context, DownloadButtonAnimation downloadButtonAnimation) {
+        progress = 10;
+        this.downloadButtonAnimation = downloadButtonAnimation;
         this.songURL = songURL;
         this.context = context;
         try {
@@ -67,7 +68,7 @@ public class DownloadSong {
             Toast.makeText(context, "cannot start download. a download is already in progress", Toast.LENGTH_LONG).show();
             return;
         }
-
+        downloadButtonAnimation.startDownload();
         String url = songURL;
 
         YoutubeDLRequest request = new YoutubeDLRequest(url);
@@ -79,34 +80,43 @@ public class DownloadSong {
         request.addOption("--audio-format", "mp3");
         request.addOption("--embed-thumbnail");
         request.addOption("--add-metadata");
+        request.addOption("--ppa", "EmbedThumbnail+ffmpeg_o:-c:v png -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"");
+        request.addOption("--verbose");
 
 
-        Toast.makeText(context, "download started", Toast.LENGTH_LONG).show();;
+        Toast.makeText(context, "download started", Toast.LENGTH_LONG).show();
+        ;
 
         downloading = true;
         Disposable disposable = Observable.fromCallable(() -> YoutubeDL.getInstance().execute(request, callback))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(youtubeDLResponse -> {
-
-                    Toast.makeText(context, "download successful", Toast.LENGTH_LONG).show();
+                    writeID3Meta();
+                    downloadButtonAnimation.finishDownloadSuccessfully();
+                    downloadButtonAnimation.getProgressBar().setProgress(100);
+                    Log.e("Download Result", youtubeDLResponse.getOut());
                     downloading = false;
                 }, e -> {
-                     Log.e("Error",  "failed to download", e);
+                    Log.e("Error", "failed to download", e);
 
-                    Toast.makeText(context, "download failed", Toast.LENGTH_LONG).show();
+                    downloadButtonAnimation.finishDownloadFailed();
                     downloading = false;
                 });
         compositeDisposable.add(disposable);
 
     }
 
+    private void writeID3Meta() {
+
+    }
 
 
     private final DownloadProgressCallback callback = new DownloadProgressCallback() {
+
         @Override
-        public void onProgressUpdate(float progress, long etaInSeconds) {
-                      progressBar.setProgress((int)progress);
+        public void onProgressUpdate(float progress, long etaInSeconds, String line) {
+            downloadButtonAnimation.getProgressBar().setProgress((int) progress + 20);
         }
     };
 

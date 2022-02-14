@@ -54,10 +54,12 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
     private Activity mContext;
     private List relatedPlaylist = Collections.emptyList();
     private VideoView videoView;
+    private String songURL;
 
-    public ExploreAdapter(Activity context, VideoView videoView) {
+    public ExploreAdapter(Activity context, VideoView videoView, String songURL) {
         this.mContext = context;
         this.videoView = videoView;
+        this.songURL = songURL;
     }
 
     @Override
@@ -165,6 +167,7 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
                     //TODO set new song from playlist
                    // videoView.setVideoURI(();
                     OnlineSong clickedSong = ((OnlineSong) relatedPlaylist.get(getAdapterPosition()));
+                    songURL = clickedSong.songUrl;
                     StartVideoStream startVideoStream = new StartVideoStream(clickedSong.songUrl, videoView, mContext.getApplicationContext());
                     break;
                 case 10:

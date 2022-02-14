@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.naman14.timber.R;
 import com.naman14.timber.adapters.ExploreAdapter;
 import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.DownloadButtonAnimation;
 import com.naman14.timber.utils.DownloadSong;
 import com.naman14.timber.utils.PreferencesUtility;
 
@@ -54,9 +55,7 @@ public class ExploreActivity extends BaseThemedActivity {
     private ExploreAdapter adapter;
     private RecyclerView recyclerView;
 
-    private FloatingActionButton downloadButton;
-    private ProgressBar progressBar;
-
+    private DownloadButtonAnimation downloadButtonAnimation;
     private List<Object> searchResults = Collections.emptyList();
 
     private Parser parser;
@@ -105,12 +104,11 @@ public class ExploreActivity extends BaseThemedActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.stream_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExploreAdapter(this, videoView);
+        adapter = new ExploreAdapter(this, videoView, songURL);
         recyclerView.setAdapter(adapter);
 
+        downloadButtonAnimation = new DownloadButtonAnimation(ExploreActivity.this);
 
-        downloadButton = findViewById(R.id.download);
-        progressBar = findViewById(R.id.download_progress_bar);
     }
 
     private void initListeners() {
@@ -121,11 +119,11 @@ public class ExploreActivity extends BaseThemedActivity {
             }
         });
 
-        progressBar.setOnClickListener(new View.OnClickListener() {
+        downloadButtonAnimation.getDownloadButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ExploreActivity.this, "download started", Toast.LENGTH_LONG).show();
-                DownloadSong downloadSong = new DownloadSong(songURL, getApplication(), progressBar);
+                DownloadSong downloadSong = new DownloadSong(songURL, getApplication(), downloadButtonAnimation);
             }
         });
     }
@@ -137,9 +135,9 @@ public class ExploreActivity extends BaseThemedActivity {
 
     }
 
-        private void setupVideoView(String videoUrl) {
-         //   videoView.setVideoURI(Uri.parse(videoUrl));
-        }
+    private void setupVideoView(String videoUrl) {
+        //   videoView.setVideoURI(Uri.parse(videoUrl));
+    }
 
     public String getSongURL() {
         return songURL;
