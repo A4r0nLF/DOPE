@@ -104,6 +104,8 @@ public class NavigationUtils {
     public static void goToExplore(Context context, OnlineSong onlineSong) {
         Intent intent = new Intent(context, ExploreActivity.class);
         intent.putExtra(Constants.SongURL, onlineSong.songUrl);
+        intent.putExtra(Constants.SongTitle, onlineSong.title);
+        intent.putExtra(Constants.Artistname, onlineSong.artistName);
         intent.putExtra(Constants.OnlinePlaylistID, onlineSong.ytMusicPlyListID);
         context.startActivity(intent);
     }

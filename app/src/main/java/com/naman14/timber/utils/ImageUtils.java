@@ -34,6 +34,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.stream.Stream;
 
 public class ImageUtils {
     private static final DisplayImageOptions lastfmDisplayImageOptions =
@@ -47,6 +48,30 @@ public class ImageUtils {
                                                 new DisplayImageOptions.Builder()
                                                         .cacheInMemory(true)
                                                         .build();
+
+    public static Bitmap cropImgToSquare(Bitmap img){
+        int startX = 0;
+        int startY = 0;
+        int width = 0;
+        int height = 0;
+        height = img.getHeight();
+        width = height;
+        startX = (img.getWidth() - height) / 2;
+        Bitmap crpdImg = Bitmap.createBitmap(img, startX, startY, width, height );
+        return crpdImg;
+    }
+
+    public static Bitmap getBitmapFromByteArray(byte[] imageData){
+        return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+    }
+
+
+
+    public static byte[] getJpegByteArrayFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
+    }
 
     public static void loadAlbumArtIntoView(final long albumId, final ImageView view) {
         loadAlbumArtIntoView(albumId, view, new SimpleImageLoadingListener());

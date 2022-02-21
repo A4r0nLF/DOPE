@@ -49,8 +49,8 @@ import io.reactivex.disposables.CompositeDisposable;
 public class ExploreActivity extends BaseThemedActivity {
     private VideoView videoView;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private String songURL;
-    private String onlinePlaylistID;
+    private String[] currentSongMeta;
+
 
     private ExploreAdapter adapter;
     private RecyclerView recyclerView;
@@ -71,8 +71,11 @@ public class ExploreActivity extends BaseThemedActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
         Intent intent = getIntent();
-        songURL = intent.getStringExtra(Constants.SongURL);
-        onlinePlaylistID = intent.getStringExtra(Constants.OnlinePlaylistID);
+        currentSongMeta = new String[4];
+        currentSongMeta[0] = intent.getStringExtra(Constants.SongURL);
+        currentSongMeta[1] = intent.getStringExtra(Constants.SongTitle);
+        currentSongMeta[2] = intent.getStringExtra(Constants.Artistname);
+        currentSongMeta[3] = intent.getStringExtra(Constants.OnlinePlaylistID);
 
         try {
             YoutubeDL.getInstance().init(getApplication());
@@ -93,7 +96,7 @@ public class ExploreActivity extends BaseThemedActivity {
         // search suggestions from Youtube Music API
         ArrayList<Object> objects = new ArrayList<>();
         new YTMusicAPIMain(objects, adapter, parser, requestJSON,3)
-                .execute(songURL, onlinePlaylistID);
+                .execute(currentSongMeta[0] , currentSongMeta[3]);
 
     }
 
@@ -101,10 +104,9 @@ public class ExploreActivity extends BaseThemedActivity {
         videoView = findViewById(R.id.album_art);
         VideoControlsMobile videoControlsMobile = new VideoControlsMobile(this);
         videoView.setControls(videoControlsMobile);
-
         recyclerView = (RecyclerView) findViewById(R.id.stream_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExploreAdapter(this, videoView, songURL);
+        adapter = new ExploreAdapter(this, videoView, currentSongMeta[0] );
         recyclerView.setAdapter(adapter);
 
         downloadButtonAnimation = new DownloadButtonAnimation(ExploreActivity.this);
@@ -123,7 +125,8 @@ public class ExploreActivity extends BaseThemedActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ExploreActivity.this, "download started", Toast.LENGTH_LONG).show();
-                DownloadSong downloadSong = new DownloadSong(songURL, getApplication(), downloadButtonAnimation);
+                DownloadSong downloadSong = new DownloadSong(currentSongMeta , getApplication(), downloadButtonAnimation);
+                downloadSong.startDownload();
             }
         });
     }
@@ -131,7 +134,7 @@ public class ExploreActivity extends BaseThemedActivity {
 
     private void startStream(){
 
-        StartVideoStream startVideoStream = new StartVideoStream(songURL, videoView, this);
+        StartVideoStream startVideoStream = new StartVideoStream(currentSongMeta[0] , videoView, this);
 
     }
 
@@ -140,7 +143,7 @@ public class ExploreActivity extends BaseThemedActivity {
     }
 
     public String getSongURL() {
-        return songURL;
+        return currentSongMeta[0] ;
     }
 
     public CompositeDisposable getCompositeDisposable() {
