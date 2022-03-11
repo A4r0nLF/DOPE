@@ -37,17 +37,21 @@ public class DownloadButtonAnimation {
         downloadButton.setImageResource(R.drawable.ic_download_failed);
     }
 
+    public void resetButton(){
+        progressBar.setVisibility(View.GONE);
+        downloadButton.setImageResource(R.drawable.ic_start_download_white);
+        enableButton();
+    }
+
     private void disableButton(){
         downloadButton.setClickable(false);
     }
 
     private void enableButton(){
-
+        downloadButton.setClickable(true);
     }
 
-    private void resetButton(){
 
-    }
 
     public FloatingActionButton getDownloadButton() {
         return downloadButton;

@@ -50,8 +50,7 @@ public class ExploreActivity extends BaseThemedActivity {
     private VideoView videoView;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private String[] currentSongMeta;
-
-
+    
     private ExploreAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -104,13 +103,11 @@ public class ExploreActivity extends BaseThemedActivity {
         videoView = findViewById(R.id.album_art);
         VideoControlsMobile videoControlsMobile = new VideoControlsMobile(this);
         videoView.setControls(videoControlsMobile);
+        downloadButtonAnimation = new DownloadButtonAnimation(ExploreActivity.this);
         recyclerView = (RecyclerView) findViewById(R.id.stream_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExploreAdapter(this, videoView, currentSongMeta[0] );
+        adapter = new ExploreAdapter(this, videoView, downloadButtonAnimation);
         recyclerView.setAdapter(adapter);
-
-        downloadButtonAnimation = new DownloadButtonAnimation(ExploreActivity.this);
-
     }
 
     private void initListeners() {
@@ -138,15 +135,4 @@ public class ExploreActivity extends BaseThemedActivity {
 
     }
 
-    private void setupVideoView(String videoUrl) {
-        //   videoView.setVideoURI(Uri.parse(videoUrl));
-    }
-
-    public String getSongURL() {
-        return currentSongMeta[0] ;
-    }
-
-    public CompositeDisposable getCompositeDisposable() {
-        return compositeDisposable;
-    }
 }

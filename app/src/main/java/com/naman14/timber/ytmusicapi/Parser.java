@@ -132,7 +132,6 @@ public class Parser {
 
     //return String[6] = [0]: Img Url, [1]: title, [2] acts, [3]: album, [4]: videoID, [5]:playlistID
     private String[][] parseSongMeta(JsonObject jsonObject) {
-        Log.e("Song:  ", jsonObject.toString());
         String[][] songMeta = null;
         JsonArray tempJson0 = jsonObject.get("musicShelfRenderer")
                 .getAsJsonObject().get("contents").getAsJsonArray();

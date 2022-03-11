@@ -30,6 +30,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.naman14.timber.R;
 import com.naman14.timber.dataloaders.LoadPicFromURL;
 
@@ -37,6 +38,9 @@ import com.naman14.timber.dataloaders.LoadPicFromURL;
 import com.naman14.timber.models.Album;
 import com.naman14.timber.models.Artist;
 import com.naman14.timber.models.Song;
+import com.naman14.timber.utils.Constants;
+import com.naman14.timber.utils.DownloadButtonAnimation;
+import com.naman14.timber.utils.DownloadSong;
 import com.naman14.timber.utils.NavigationUtils;
 import com.naman14.timber.utils.StartVideoStream;
 import com.naman14.timber.utils.TimberUtils;
@@ -54,12 +58,12 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
     private Activity mContext;
     private List relatedPlaylist = Collections.emptyList();
     private VideoView videoView;
-    private String songURL;
+    private DownloadButtonAnimation downloadButtonAnimation;
 
-    public ExploreAdapter(Activity context, VideoView videoView, String songURL) {
+    public ExploreAdapter(Activity context, VideoView videoView, DownloadButtonAnimation downloadButtonAnimation) {
         this.mContext = context;
         this.videoView = videoView;
-        this.songURL = songURL;
+        this.downloadButtonAnimation = downloadButtonAnimation;
     }
 
     @Override
@@ -165,9 +169,21 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
                     break;
                 case 11:
                     //TODO set new song from playlist
-                   // videoView.setVideoURI(();
                     OnlineSong clickedSong = ((OnlineSong) relatedPlaylist.get(getAdapterPosition()));
-                    songURL = clickedSong.songUrl;
+
+                    String[] currentSongMeta = new String[4];
+                    currentSongMeta[0] = clickedSong.songUrl;
+                    currentSongMeta[1] = clickedSong.title;
+                    currentSongMeta[2] = clickedSong.artistName;
+                    currentSongMeta[3] = clickedSong.ytMusicPlyListID;
+                    downloadButtonAnimation.resetButton();
+                    downloadButtonAnimation.getDownloadButton().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            DownloadSong downloadSong = new DownloadSong(currentSongMeta , mContext.getApplication(), downloadButtonAnimation);
+                            downloadSong.startDownload();
+                        }
+                    });
                     StartVideoStream startVideoStream = new StartVideoStream(clickedSong.songUrl, videoView, mContext.getApplicationContext());
                     break;
                 case 10:

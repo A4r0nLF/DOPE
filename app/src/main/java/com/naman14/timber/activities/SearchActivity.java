@@ -260,7 +260,7 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
     @Override
     public boolean onQueryTextChange(final String newText) {
         if (localSearch) {
-
+            searchResults.clear();
             if (mSearchTask != null) {
                 mSearchTask.cancel(false);
                 mSearchTask = null;
