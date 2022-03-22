@@ -20,7 +20,6 @@ public class FolderLoader {
             "mp3",
             "mp4",
             "m4a",
-            "aac",
             "ogg",
             "wav"
     };
@@ -46,7 +45,6 @@ public class FolderLoader {
             Collections.sort(files, new DirFirstComparator());
             list.addAll(files);
         }
-
         return list;
     }
 

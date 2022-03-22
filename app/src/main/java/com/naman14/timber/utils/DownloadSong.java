@@ -1,30 +1,14 @@
 package com.naman14.timber.utils;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.os.Bundle;
+import android.media.MediaScannerConnection;
+import android.os.AsyncTask;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-import androidx.core.app.ActivityCompat;
 
 
 import com.mpatric.mp3agic.ID3v2;
-import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.UnsupportedTagException;
 import com.yausername.ffmpeg.FFmpeg;
 import com.yausername.youtubedl_android.DownloadProgressCallback;
 import com.yausername.youtubedl_android.YoutubeDL;
@@ -33,7 +17,7 @@ import com.yausername.youtubedl_android.YoutubeDLRequest;
 
 
 import java.io.File;
-import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,27 +28,25 @@ import io.reactivex.schedulers.Schedulers;
 import android.content.Context;
 
 
-import com.devbrackets.android.exomedia.ui.widget.VideoView;
-
-
-public class DownloadSong {
+public class DownloadSong extends AsyncTask<Void, Integer, Boolean> {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private String[] currentSongMeta;
     private final String musicPath;
 
     private Context context;
-    private boolean downloading = false;
+    private boolean subThreadFinished;
     private int progress;
     private DownloadButtonAnimation downloadButtonAnimation;
 
 
     public DownloadSong(String[] currentSongMeta, Context context, DownloadButtonAnimation downloadButtonAnimation) {
-        progress = 10;
+
         this.downloadButtonAnimation = downloadButtonAnimation;
         this.currentSongMeta = currentSongMeta;
         musicPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + "/" + Environment.DIRECTORY_MUSIC
                 + "/JustDownloaded/";
+        subThreadFinished = false;
 
         this.context = context;
         try {
@@ -72,19 +54,18 @@ public class DownloadSong {
         } catch (YoutubeDLException e) {
             e.printStackTrace();
         }
+        downloadButtonAnimation.startDownload();
+        downloadButtonAnimation.getProgressBar().setProgress(10);
+
+
     }
 
+    @Override
+    protected Boolean doInBackground(Void... voids) {
 
-
-
-    public void startDownload() {
-        if (downloading) {
-            Toast.makeText(context, "cannot start download. a download is already in progress", Toast.LENGTH_LONG).show();
-            return;
-        }
-        downloading = true;
         downloadButtonAnimation.startDownload();
         String url = currentSongMeta[0];
+
 
         YoutubeDLRequest request = new YoutubeDLRequest(url);
         request.addOption("-o", musicPath + "tmpDownload.%(ext)s");
@@ -98,26 +79,26 @@ public class DownloadSong {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(youtubeDLResponse -> {
-                    downloadButtonAnimation.getProgressBar().setProgress(100);
+                    downloadButtonAnimation.getProgressBar().setProgress(80);
                     writeID3Meta();
-                    downloadButtonAnimation.finishDownloadSuccessfully();
                     downloadButtonAnimation.getProgressBar().setProgress(100);
-
-                    downloading = false;
+                    downloadButtonAnimation.finishDownloadSuccessfully();
+                    subThreadFinished = true;
+                    Log.e("subthreadfinished", "haha");
                 }, e -> {
                     Log.e("Error", "failed to download", e);
-
                     downloadButtonAnimation.finishDownloadFailed();
-                    downloading = false;
+                    subThreadFinished = true;
                 });
         compositeDisposable.add(disposable);
-
+        while (!subThreadFinished){}
+        Log.e("mainthreadfinished", "haha");
+        return true;
     }
 
     private void writeID3Meta() {
         try {
             Mp3File mp3file = new Mp3File(musicPath + "tmpDownload.mp3");
-
 
             if (mp3file.hasId3v2Tag()) {
                 ID3v2 id3v2Tag = mp3file.getId3v2Tag();
@@ -131,6 +112,12 @@ public class DownloadSong {
             mp3file.save(musicPath + currentSongMeta[2] + " - " + currentSongMeta[1]+ ".mp3");
             File fdelete = new File(musicPath + "tmpDownload.mp3");
             if (fdelete.exists()) fdelete.delete();
+
+            MediaScannerConnection.scanFile(context,
+                    new String[]{musicPath + currentSongMeta[2] + " - " + currentSongMeta[1] + ".mp3"},
+                    new String[]{"audio/mp3", "*/*"},
+                    (s, uri) -> { }
+            );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,8 +128,9 @@ public class DownloadSong {
 
         @Override
         public void onProgressUpdate(float progress, long etaInSeconds, String line) {
-            downloadButtonAnimation.getProgressBar().setProgress((int) progress + 20);
+            downloadButtonAnimation.getProgressBar().setProgress((int)(20 + (progress/100*70)));
         }
     };
+
 
 }

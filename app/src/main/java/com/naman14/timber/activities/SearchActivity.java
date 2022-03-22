@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.MediaStore;
 import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
@@ -147,6 +148,19 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
 
         parser = new Parser();
         requestJSON = new RequestJSON();
+
+        ////Investigation Mediastore
+        //ArrayList audio = new ArrayList();
+        //Cursor c = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+        //        new String[]{MediaStore.Audio.Media.DISPLAY_NAME},
+        //        null , null, null);
+        //while(c.moveToNext()){
+        //    String name = c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+        //    audio.add(name);
+        //}
+        //for (int i = 0; i < audio.size(); i++){
+        //    Log.e("Song" + i, audio.get(i).toString());
+        //}
 
     }
 
@@ -285,9 +299,13 @@ public class SearchActivity extends BaseActivity implements SearchView.OnQueryTe
                 adapter.notifyDataSetChanged();
             } else {
                 // search suggestions from Youtube Music API
-                ArrayList<Object> objects = new ArrayList<>();
-                new YTMusicAPIMain(objects, adapter, parser, requestJSON, simpleCursorAdapter, 0)
-                        .execute(newText);
+                try {
+                    ArrayList<Object> objects = new ArrayList<>();
+                    new YTMusicAPIMain(objects, adapter, parser, requestJSON, simpleCursorAdapter, 0)
+                            .execute(newText);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
 

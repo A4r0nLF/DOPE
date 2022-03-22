@@ -82,7 +82,6 @@ public class ExploreActivity extends BaseThemedActivity {
         } catch (YoutubeDLException e) {
             Log.e("Error: ", "failed to initialize youtubedl-android", e);
         }
-
         initViews();
         initListeners();
         startStream();
@@ -122,8 +121,7 @@ public class ExploreActivity extends BaseThemedActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ExploreActivity.this, "download started", Toast.LENGTH_LONG).show();
-                DownloadSong downloadSong = new DownloadSong(currentSongMeta , getApplication(), downloadButtonAnimation);
-                downloadSong.startDownload();
+                new DownloadSong(currentSongMeta , getApplication(), downloadButtonAnimation).execute();
             }
         });
     }

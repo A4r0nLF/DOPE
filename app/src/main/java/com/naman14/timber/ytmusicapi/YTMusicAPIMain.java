@@ -91,7 +91,7 @@ public class YTMusicAPIMain extends AsyncTask<String, Void, ArrayList<Object>> {
     protected void onPostExecute(ArrayList<Object> objects) {
         switch (mode){
             case 0:
-                populateAdapter( objects);
+                if(!objects.isEmpty()) populateAdapter( objects);
                 break;
             case 1:
                 SearchAdapter searchAdapter = (SearchAdapter)adapter;

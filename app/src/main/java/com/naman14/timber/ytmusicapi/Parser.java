@@ -33,22 +33,23 @@ public class Parser {
 
     public ArrayList<String> parseSearchSuggestions(String json) {
         ArrayList<String> searchSuggestions = new ArrayList<>();
+        try {
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+            JsonElement jsonElement = jsonObject.get("contents")
+                    .getAsJsonArray().get(0)
+                    .getAsJsonObject().get("searchSuggestionsSectionRenderer")
+                    .getAsJsonObject().get("contents");
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+            for (int i = 0; i < jsonArray.size(); i++) {
 
-        Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-        JsonElement jsonElement = jsonObject.get("contents")
-                .getAsJsonArray().get(0)
-                .getAsJsonObject().get("searchSuggestionsSectionRenderer")
-                .getAsJsonObject().get("contents");
-        JsonArray jsonArray = jsonElement.getAsJsonArray();
-        for (int i = 0; i < jsonArray.size(); i++) {
-
-            searchSuggestions.add(jsonArray.get(i).getAsJsonObject().get("searchSuggestionRenderer")
-                    .getAsJsonObject().get("navigationEndpoint")
-                    .getAsJsonObject().get("searchEndpoint").getAsJsonObject().get("query").getAsString()
-            );
-        }
-        return searchSuggestions;
+                searchSuggestions.add(jsonArray.get(i).getAsJsonObject().get("searchSuggestionRenderer")
+                        .getAsJsonObject().get("navigationEndpoint")
+                        .getAsJsonObject().get("searchEndpoint").getAsJsonObject().get("query").getAsString()
+                );
+            }
+        } catch (Exception ignored){}
+            return searchSuggestions;
     }
 
     public ArrayList<OnlineSong> parseSearchResults(String json) {

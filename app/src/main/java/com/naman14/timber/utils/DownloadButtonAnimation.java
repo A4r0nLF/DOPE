@@ -24,11 +24,10 @@ public class DownloadButtonAnimation {
     public void startDownload(){
         disableButton();
         progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgress(20);
+        progressBar.setProgress(10);
     }
 
     public void finishDownloadSuccessfully(){
-       // progressBar.setVisibility(View.GONE);
         downloadButton.setImageResource(R.drawable.ic_download_done);
     }
 

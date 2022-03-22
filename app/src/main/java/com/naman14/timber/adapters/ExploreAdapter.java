@@ -180,8 +180,7 @@ public class ExploreAdapter extends BaseSongAdapter<ExploreAdapter.ItemHolder> {
                     downloadButtonAnimation.getDownloadButton().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            DownloadSong downloadSong = new DownloadSong(currentSongMeta , mContext.getApplication(), downloadButtonAnimation);
-                            downloadSong.startDownload();
+                            new DownloadSong(currentSongMeta , mContext.getApplication(), downloadButtonAnimation).execute();
                         }
                     });
                     StartVideoStream startVideoStream = new StartVideoStream(clickedSong.songUrl, videoView, mContext.getApplicationContext());
